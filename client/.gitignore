@@ -2,7 +2,6 @@
 node_modules
 /dist
 
-src/helpers/firebase.js
 
 # local env files
 .env.local
