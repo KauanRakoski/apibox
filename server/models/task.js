@@ -14,6 +14,10 @@ const Tasks = {
         type: String,
         required: true
     },
+    key: {
+        type: String,
+        required: true
+    },
     action: {
         type: String,
         required: true

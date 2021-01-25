@@ -7,14 +7,8 @@
         </div>
 
         <div class="tasks">
-            <div class="task">
-                <div class="content">
-                    <h2 class="task-title">Lamp 1</h2>
-                    <p>Turns on and off lamp 1</p>
-                </div>
-                <div class="key">
-                    <Button type="slider"/>
-                </div>
+            <div class="task-container" v-for="task in UserTasks" :key="task">
+                <Task v-bind:content="task"/>
             </div>
         </div>
     </div>
@@ -23,16 +17,18 @@
 <script>
 import firebase from 'firebase'
 import Header from '../components/Header'
-import Button from '../components/Button'
+import Task from '../components/Task'
+
 export default {
     name: "Dashboard",
     components: {
         Header, 
-        Button
+        Task
     },
     data(){
         return{
-           fetchUrl: 'https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/get/'
+           fetchUrl: 'https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/',
+           UserTasks: []
         }
     },
     methods: {
@@ -40,9 +36,11 @@ export default {
             let userInfo = localStorage.getItem('AuthUser')
             return JSON.parse(userInfo)
         },
-        fetchUserData(user){
-            let tasks = fetch(`${this.fetchUrl + user}`, {method: 'POST'})
-            console.log(tasks)
+        async fetchUserData(user){
+            let tasks = await fetch(`${this.fetchUrl + user}/`, {method: 'POST'})
+            let json = await tasks.json()
+            
+            this.UserTasks = json
         }
     },
     mounted(){
@@ -50,9 +48,9 @@ export default {
         
         if(this.user !== null && this.user !== undefined){
             localStorage.setItem('AuthUser', JSON.stringify(this.user))
-            this.fetchUserData(this.user.email)            
+            this.fetchUserData(this.user.uid)            
         }else{
-            this.fetchUserData(this.getUser().email)  
+            this.fetchUserData(this.getUser().uid)  
         }       
     }
 }
@@ -75,28 +73,11 @@ h2{
 }
 .tasks{
     padding: 1em;
-}
-.task{
-    height: 200px;
-    padding: 0 2em;
-    border-radius: 8px;
-    border: 1px solid #EAECEF;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.task .content{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
 }
-.task .content h2{
-    font-family: "Inter", sans-serif;
-    margin-bottom: 15px;
-    font-weight: 500;
-}
-.task .content p{
-    font-family: "Inter", sans-serif;
-    font-size: 20px;
+.task-container{
+    margin-bottom: 1em;
 }
 </style>

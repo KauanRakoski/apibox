@@ -1,9 +1,20 @@
 <template>
-  <div v-if="type == 'slider'">
-    <label class="switch">
-      <input type="checkbox" checked />
-      <span :class="type ? type : 'default'"></span>
-    </label>
+  <div>
+    <div v-if="type == 'slider'">
+      <label class="switch">
+        <input
+          type="checkbox"
+          :id="taskID"
+          @click="runActionBox(taskID, action)"
+          checked
+        />
+        <span :class="type ? type : 'default'"></span>
+      </label>
+    </div>
+
+    <div v-else-if="type == 'click'">
+      <button class="actionBtn">Run</button>
+    </div>
   </div>
 </template>
 
@@ -12,6 +23,20 @@ export default {
   name: "Button",
   props: {
     type: String,
+    taskID: String,
+    action: String,
+  },
+  methods: {
+    runActionBox(taskID, action) {
+      var checkbox = document.getElementById(taskID);
+      if (checkbox.checked != true) {
+        let run = new Function(action);
+        run(null, false);
+      } else {
+        let run = new Function(action);
+        run.call(null, true);
+      }
+    },
   },
 };
 </script>
@@ -56,11 +81,11 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #5469D4;
+  background-color: #5469d4;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #5469D4;
+  box-shadow: 0 0 1px #5469d4;
 }
 
 input:checked + .slider:before {
@@ -70,5 +95,16 @@ input:checked + .slider:before {
 }
 .slider:before {
   border-radius: 50%;
+}
+.actionBtn {
+  font-family: "Inter", sans-serif;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  border: none;
+  width: 60px;
+  height: 40px;
+  border-bottom: 4px solid #3d50ab;
+  background-color: #5469d4;
 }
 </style>

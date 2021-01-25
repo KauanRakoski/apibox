@@ -7,8 +7,7 @@ const router = express.Router()
 router.post('/add/:uid/', async (req, res) => {
     var uid = req.params.uid
     var {name, description, key, code} = req.body
-    console.log(name, description, key, code)
-    console.log(uid)
+    
     try{
         await Tasks.create({
             author: uid,
@@ -24,11 +23,13 @@ router.post('/add/:uid/', async (req, res) => {
     }
 })
 
-router.post('get/:email', async(req,res) => {
-    let author = req.params.email
+router.post('/getdata/:uid', async(req,res) => {
+    let author = req.params.uid
+    console.log(author)
     try{
         let tasks = await Tasks.find({author: author})
-        res.json(tasks)
+        res.send(tasks)
+        console.log(tasks)
     }catch(e){
         console.log(e)
     }

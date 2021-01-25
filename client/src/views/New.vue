@@ -4,7 +4,7 @@
     <div class="content">
       <h3>✨ Add a new task</h3>
 
-      <form :action="postRoute + getUserEmail() + '/'" method="POST">
+      <form :action="postRoute + getUserId() + '/'" method="POST">
         <div class="input-group">
           <label for="name">Name of the task:</label>
           <input name="name" id="name" placeholder="i.e Great Sausage" />
@@ -51,10 +51,10 @@ export default {
     };
   },
   methods: {
-    getUserEmail() {
+    getUserId() {
       let userInfo = localStorage.getItem("AuthUser");
       let jsonInfo = JSON.parse(userInfo);
-      return jsonInfo.email
+      return jsonInfo.uid
     },
   },
 };
