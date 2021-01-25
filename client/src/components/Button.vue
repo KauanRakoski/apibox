@@ -5,7 +5,7 @@
         <input
           type="checkbox"
           :id="taskID"
-          @click="runActionBox(taskID, action)"
+          @click="runToogleAction(taskID, action)"
           checked
         />
         <span :class="type ? type : 'default'"></span>
@@ -13,7 +13,7 @@
     </div>
 
     <div v-else-if="type == 'click'">
-      <button class="actionBtn">Run</button>
+      <button @click="runClickAction(action)" class="actionBtn">Run</button>
     </div>
   </div>
 </template>
@@ -27,16 +27,15 @@ export default {
     action: String,
   },
   methods: {
-    runActionBox(taskID, action) {
-      var checkbox = document.getElementById(taskID);
-      if (checkbox.checked != true) {
-        let run = new Function(action);
-        run(null, false);
-      } else {
-        let run = new Function(action);
-        run.call(null, true);
-      }
+    runToogleAction(taskID, action) {
+      var checkbox = document.getElementById(taskID)
+      var run = eval(action)
+      run(checkbox.checked)
     },
+    runClickAction(action){
+        var run = eval(action)
+        run()
+    }
   },
 };
 </script>

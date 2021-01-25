@@ -4,7 +4,8 @@
                     <h2 class="task-title">{{content.name}}</h2>
                     <p>{{content.description}}</p>
                 </div>
-                <div class="key">
+                <div class="buttons">
+                    <TaskOptions/>
                     <Button 
                     v-bind:type="content.key" 
                     v-bind:taskID="content._id"
@@ -15,10 +16,12 @@
 
 <script>
 import Button from './Button'
+import TaskOptions from './TaskOptions'
 export default {
     name: "Task",
     components:{
-        Button
+        Button,
+        TaskOptions
     },
     props: {
         content: Object
@@ -48,5 +51,10 @@ export default {
 .task .content p{
     font-family: "Inter", sans-serif;
     font-size: 20px;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 </style>

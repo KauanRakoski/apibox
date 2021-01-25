@@ -4,7 +4,7 @@
     <div class="content">
       <h3>✨ Add a new task</h3>
 
-      <form :action="postRoute + getUserId() + '/'" method="POST">
+      <form id="form" :action="postRoute + getUserId() + '/'" method="POST">
         <div class="input-group">
           <label for="name">Name of the task:</label>
           <input name="name" id="name" placeholder="i.e Great Sausage" />
@@ -18,7 +18,7 @@
         <div class="input-group">
           <label for="key">Select a key:</label>
           <select name="key" id="key">
-            <option value="slider">Slider V</option>
+            <option value="slider">Slider</option>
             <option value="click">Click</option>
           </select>
         </div>
@@ -28,7 +28,7 @@
           <textarea name="code" id="code">function(i){your code goes here...}</textarea>
         </div>
 
-        <button v-on:submit.prevent="saveNote" class="btn btn-primary">
+        <button class="btn btn-primary">
           Create new task
         </button>
       </form>
@@ -56,6 +56,11 @@ export default {
       let jsonInfo = JSON.parse(userInfo);
       return jsonInfo.uid
     },
+    /* redirectHome(){
+        let div = document.getElementById("form") 
+        console.log(div)
+        this.$router.push('/dashboard')
+    } */
   },
 };
 </script>
