@@ -8,7 +8,7 @@
 
         <div class="tasks">
             <div class="task-container" v-for="task in UserTasks" :key="task">
-                <Task v-bind:content="task"/>
+                <Task v-bind:content="task" v-on:refetchData="refreshTasks()"/>
             </div>
         </div>
     </div>
@@ -41,6 +41,11 @@ export default {
             let json = await tasks.json()
             
             this.UserTasks = json
+        },
+        async refreshTasks(){
+            this.fetchUserData(this.getUser().uid) 
+            console.log('3')
+            
         }
     },
     mounted(){

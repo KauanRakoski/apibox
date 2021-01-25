@@ -6,12 +6,12 @@ const mongoose = require('mongoose')
 
 
 
-/* var corsOptions = {
+var corsOptions = {
   origin: ['https://8080-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io'],
   optionsSuccessStatus: 200
 }
- */
-app.use(cors())
+
+app.use(cors(corsOptions))
 
 const db = process.env.MONGO_URI
 

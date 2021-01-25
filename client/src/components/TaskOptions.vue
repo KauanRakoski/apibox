@@ -1,14 +1,14 @@
 <template>
     <div>
-        <div @click="toogleOptions" class="dot-container">
+        <div @click="toogleOptions(taskId)" class="dot-container">
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
         </div>
         
-        <ul id="options">
+        <ul class="options" v-bind:id="taskId">
             <li><a>Edit</a></li>
-            <li><a>Delete</a></li>
+            <li><button @click="DeleteTask()">Delete</button></li>
         </ul>
     </div>
 </template>
@@ -17,11 +17,28 @@
 
 export default {
     name: "TaskOptions",
+    data(){
+        return {
+            BaseDelUrl: 'https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/'
+        }
+    },
+    props: {
+        taskId: String,
+    },
     methods: {
-        toogleOptions(){
-            let optionsMenu = document.getElementById('options')
+        toogleOptions(id){
+            let optionsMenu = document.getElementById(id)
             if(optionsMenu.style.opacity > 0) optionsMenu.style.opacity = 0
             else optionsMenu.style.opacity = 1 
+        },
+        getUser(){
+            let userInfo = localStorage.getItem('AuthUser')
+            return JSON.parse(userInfo)
+        },
+        async DeleteTask(){
+            console.log('1')            
+            this.$emit('refetchData')
+            await fetch(`${this.BaseDelUrl + this.taskId}`, {method: 'POST'})
         }
     }
 }
@@ -41,12 +58,12 @@ export default {
     border-radius: 100%;
     background-color: black;
 }
-#options{
+.options{
     opacity: 0;
     list-style: none;
     padding: none;   
 }
-#options li{
+.options li{
     border-radius: 3px;
     text-align: center;
     border-bottom: 1px solid rgb(187, 178, 178);
@@ -55,7 +72,7 @@ export default {
     background-color: rgb(236, 228, 228);
     padding: 0.1em 1em;
 }
-#options li a{
+.options li a{
     text-decoration: none;
     cursor: pointer;
 }

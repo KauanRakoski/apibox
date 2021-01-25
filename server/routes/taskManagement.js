@@ -16,7 +16,6 @@ router.post('/add/:uid/', async (req, res) => {
             key: key, 
             action: code
         })
-        console.log("ok")
     }
     catch(e){
         console.log(e)
@@ -25,13 +24,24 @@ router.post('/add/:uid/', async (req, res) => {
 
 router.post('/getdata/:uid', async(req,res) => {
     let author = req.params.uid
-    console.log(author)
+    
     try{
         let tasks = await Tasks.find({author: author})
         res.send(tasks)
-        console.log(tasks)
     }catch(e){
         console.log(e)
+    }
+})
+
+router.post('/delete/:taskId', async(req, res) => {
+    let taskId = req.params.taskId
+
+    try{
+        await Tasks.deleteOne({ _id: taskId})
+        console.log('💔 Deleted')
+    }catch(e){
+        console.log('Oh oh...')
+        console.table(e)
     }
 })
 

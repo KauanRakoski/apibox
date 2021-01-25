@@ -5,7 +5,10 @@
                     <p>{{content.description}}</p>
                 </div>
                 <div class="buttons">
-                    <TaskOptions/>
+                    <TaskOptions
+                    v-bind:taskId="content._id"
+                    v-on:refetchData="goUp()"
+                    />
                     <Button 
                     v-bind:type="content.key" 
                     v-bind:taskID="content._id"
@@ -24,8 +27,13 @@ export default {
         TaskOptions
     },
     props: {
-        content: Object
+        content: Object,
     },
+    methods: {
+        goUp(){
+            this.$emit('refetchData')
+        }
+    }
 }
 </script>
 <style scoped>
