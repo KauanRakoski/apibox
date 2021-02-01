@@ -4,7 +4,12 @@
     <div class="content">
       <h3>✨ Add a new task</h3>
 
-      <form id="form" :action="postRoute + getUserId() + '/'" method="POST">
+      <form
+        @submit.prevent="submit()"
+        id="form"
+        :action="postRoute + getUserId() + '/'"
+        method="POST"
+      >
         <div class="input-group">
           <label for="name">Name of the task:</label>
           <input name="name" id="name" placeholder="i.e Great Sausage" />
@@ -12,7 +17,11 @@
 
         <div class="input-group">
           <label for="description">Description:</label>
-          <input name="description" id="description" placeholder="i.e Starts cooking a sausage" />
+          <input
+            name="description"
+            id="description"
+            placeholder="i.e Starts cooking a sausage"
+          />
         </div>
 
         <div class="input-group">
@@ -25,12 +34,12 @@
 
         <div class="input-group">
           <label for="code">Action:</label>
-          <textarea name="code" id="code">function(i){your code goes here...}</textarea>
+          <textarea name="code" id="code">
+function(i){your code goes here...}</textarea
+          >
         </div>
 
-        <button class="btn btn-primary">
-          Create new task
-        </button>
+        <button type="submit" class="btn btn-primary">Create new task</button>
       </form>
     </div>
   </div>
@@ -38,6 +47,7 @@
 
 <script>
 import Header from "../components/Header";
+import utilities from '../helpers/utilites'
 
 export default {
   name: "New",
@@ -54,13 +64,23 @@ export default {
     getUserId() {
       let userInfo = localStorage.getItem("AuthUser");
       let jsonInfo = JSON.parse(userInfo);
-      return jsonInfo.uid
+      return jsonInfo.uid;
     },
-    /* redirectHome(){
-        let div = document.getElementById("form") 
-        console.log(div)
-        this.$router.push('/dashboard')
-    } */
+    submit() {
+      let name = document.getElementById("name").value;
+      let description = document.getElementById("description").value;
+      let key = document.getElementById("key").value;
+      let code = document.getElementById("code").value;
+
+      fetch(`${this.postRoute}${this.getUserId()}/?name=${name}&key=${key}&description=${description}&code=${code}`,
+        { method: "POST" }
+      );
+      this.$router.push("/dashboard");
+    },
+  },
+  mounted() {
+    var subscription = utilities.checkUserSubscription(this.getUserId().email);
+    if (subscription == "inactive") this.$router.push("/subscribe");
   },
 };
 </script>

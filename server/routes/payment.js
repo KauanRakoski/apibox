@@ -1,7 +1,21 @@
-const router =require('express').Router()
+const router = require('express').Router()
 const Stripe = require('stripe');
 const stripe = Stripe('sk_test_51HuKA0J1YBMak5vmpWELpI6iBDXLwqhecr3UX3mvyP56thOpKf88592MM24SV5bcxsanQCXtjRW4nxgh3EScgpTX00VYVxFvBq')
 
+router.post('/list', async (req, res) => {
+    var userList = await stripe.customers.list()
+    var costumers = userList.data
+    var users = []
+
+    costumers.forEach(costumer => {
+        users.push({
+            "email": costumer.email,
+            "id": costumer.id
+        })
+    })
+    
+    res.send(users)
+})
 /* router.post(
   '/stripe-webhook',
   bodyParser.raw({ type: 'application/json' }),
@@ -42,7 +56,7 @@ const stripe = Stripe('sk_test_51HuKA0J1YBMak5vmpWELpI6iBDXLwqhecr3UX3mvyP56thOp
   }
 ) */
 
-router.post('/create-costumer/:email', async(req, res) => {
+router.post('/create-costumer/:email', async (req, res) => {
     const costumer = await stripe.customers.create({
         email: req.params.email
     })
@@ -51,26 +65,34 @@ router.post('/create-costumer/:email', async(req, res) => {
 })
 
 router.post('/sub', async (req, res) => {
-  const {email, payment_method} = req.body;
+    const {
+        email,
+        payment_method
+    } = req.body;
 
-  const customer = await stripe.customers.create({
-    payment_method: payment_method,
-    email: email,
-    invoice_settings: {
-      default_payment_method: payment_method,
-    },
-  });
+    const customer = await stripe.customers.create({
+        payment_method: payment_method,
+        email: email,
+        invoice_settings: {
+            default_payment_method: payment_method,
+        },
+    });
 
-  const subscription = await stripe.subscriptions.create({
-    customer: customer.id,
-    items: [{ price: 'price_1Hv3bjJ1YBMak5vm5IxbuVZU' }],
-    
-  });
-  
-  const status = subscription['status'] 
-  /* const client_secret = subscription['latest_invoice']['payment_intent']['client_secret'] */
+    const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{
+            price: 'price_1Hv3bjJ1YBMak5vm5IxbuVZU'
+        }],
 
-  res.json({'client_secret': '', 'status': status});
+    });
+
+    const status = subscription['status']
+    /* const client_secret = subscription['latest_invoice']['payment_intent']['client_secret'] */
+
+    res.json({
+        'client_secret': '',
+        'status': status
+    });
 })
 
 module.exports = router

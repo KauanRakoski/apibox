@@ -10,7 +10,7 @@
     margin: 0;
     box-sizing: border-box;
 }
-.btn{
+.button{
     padding: 0.7em 2em;
     outline: none;
     border: none;
@@ -18,15 +18,15 @@
     border-radius: 8px;
     font-weight: bold;
 }
-.btn-primary{
+.btn-main{
     color: white;
     background-color: #5469D4;
 }
-.btn-secondary{
+.btn-second{
     color: #5469D4;
     background-color: #E5EFFD;
 }
-.btn-secondary:hover{
+.btn-second:hover{
     background-color:  rgb(193, 209, 233);
 }
 </style>

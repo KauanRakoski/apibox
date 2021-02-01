@@ -8,10 +8,14 @@
 
         <div id="controls">
             <router-link to="/new">
-                <button class="btn btn-primary">New task</button>
+                <button class="button btn-main">New task</button>
+            </router-link>
+
+            <router-link to="/subscribe">
+                <button class="button btn-main">Subscribe</button>
             </router-link>
             
-            <button class="btn btn-secondary" @click="logOut">Sign out</button>
+            <button class="button btn-second" @click="logOut">Sign out</button>
         </div>
     </header>
 </template>
