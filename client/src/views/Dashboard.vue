@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Header />
+    <Header v-bind:img="getUser().photoURL"/>
     <div class="hello">
-      <h1>Welcome, {{ getUser().displayName }}.</h1>
+      <h1>Welcome, <br>{{ getUser().displayName }}.</h1>
       <h2>Here are your tasks:</h2>
     </div>
 
@@ -12,16 +12,22 @@
           <Task v-bind:content="task" v-on:refresh-tasks="f" />
         </transition>
       </div>
+
+    </div>
+    
+    <div class="newTask" >
+    <router-link to="/new">
+        <button class="add-btn">Create new task</button>
+    </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from "firebase"
-import Header from "../components/Header"
-import Task from "../components/Task"
-import utilities from '../helpers/utilites'
-
+import firebase from "firebase";
+import Header from "../components/Header";
+import Task from "../components/Task";
+import utilities from "../helpers/utilites";
 
 export default {
   name: "Dashboard",
@@ -61,17 +67,20 @@ export default {
       });
     },
   },
-  mounted() {
-    var subscription = utilities.checkUserSubscription(this.getUser().email)
-    console.log(subscription)
-    
-    
-    this.user = firebase.auth().currentUser;
+  async mounted() {
+    this.user = firebase.auth().currentUser || false;
 
-    if (this.user !== null && this.user !== undefined) {
+    if (this.user) {
       localStorage.setItem("AuthUser", JSON.stringify(this.user));
+
+      let subscription = await utilities.checkUserSubscription(this.user.email);
+      if (subscription == undefined) this.$router.push("/subscribe");
+      console.log("Subscription is " + subscription)
       this.fetchUserData(this.user.uid);
     } else {
+      let subscription = await utilities.checkUserSubscription(this.user.email);
+      console.log("Subscription is " + subscription)
+      if (subscription == undefined) this.$router.push("/subscribe");
       this.fetchUserData(this.getUser().uid);
     }
   },
@@ -82,24 +91,54 @@ export default {
 .hello {
   padding: 1.5em 1em;
   font-family: "Inter", sans-serif;
+  background-color: #4460f1;
+}
+.newTask{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+.add-btn{
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 15px;
+    padding: 1em 3em;
+    background-color: #ffffff;
+    border: 1px solid #4460f1;
+    font-family: "Inter", sans-serif;
+    font-size: 17px;
+    text-decoration: none;
+    font-weight: 500;
 }
 h1 {
   font-weight: 400;
   font-size: 30px;
   margin-bottom: 9px;
+  color: white;
 }
 h2 {
+  color: white;
   font-weight: 300;
   font-size: 25px;
 }
 .tasks {
+  background-image: linear-gradient(
+    to bottom,
+    #4460f1,
+    #4460f1 100px,
+    transparent 100px,
+    transparent 100px
+  );
   padding: 1em;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
+
 .task-container {
   margin-bottom: 1em;
+  z-index: 99;
 }
 .appear-enter-active,
 .appear-leave-active {

@@ -38,10 +38,11 @@ export default {
 </script>
 <style scoped>
 .task {
+    background-color: white;
   height: 200px;
   padding: 0 2em;
-  border-radius: 8px;
-  border: 1px solid #eaecef;
+  border-radius: 3px;
+  box-shadow:3px 3px 12px rgba(0,0,0,.3), -3px -3px 14px rgba(0,0,0,.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,6 +54,7 @@ export default {
 }
 .task .content h2 {
   font-family: "Inter", sans-serif;
+  color: black;
   margin-bottom: 15px;
   font-weight: 500;
 }

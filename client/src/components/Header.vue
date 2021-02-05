@@ -1,61 +1,116 @@
 <template>
-    <header>
-        <div class="logo">
-            <img class="logoImg" src="../assets/controlLogo.svg">
-            <h2 id="logo">Control</h2>
-        </div>
-        
+  <header>
+    <div class="logo">
+      <img class="logoImg" src="../assets/controlLogo.svg" />
+      <h2 id="logo">Control</h2>
+    </div>
 
-        <div id="controls">
-            <router-link to="/new">
-                <button class="button btn-main">New task</button>
-            </router-link>
-
-            <router-link to="/subscribe">
-                <button class="button btn-main">Subscribe</button>
-            </router-link>
-            
-            <button class="button btn-second" @click="logOut">Sign out</button>
-        </div>
-    </header>
+    <div id="controls">
+      <img class="profile-photo" :src="img" @click="toggleMenu" />
+      <ul id="menu">
+        <li @click="logOut">Sign Out</li>
+        <li>Cancel Subscription</li>
+      </ul>
+    </div>
+  </header>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 
 export default {
-    name: "Header",
-    methods: {
-        logOut() {
-            firebase.auth().signOut()
-            localStorage.removeItem('AuthUser')
-        }
-    }
-}
+  name: "Header",
+  props: {
+    img: String,
+  },
+  methods: {
+    logOut() {
+      firebase.auth().signOut();
+      localStorage.removeItem("AuthUser");
+    },
+    toggleMenu() {
+      let menu = document.getElementById("menu");
+
+      if (menu.style.opacity != 0) menu.style.opacity = 0;
+      else menu.style.opacity = 1;
+    },
+  },
+};
 </script>
 
 <style scoped>
-header{
-    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
-    margin: 0;
-    padding: 1.5em 2em;
-    display: flex;
-    justify-content: space-between;
+header {
+  background-color: #4460f1;
+  margin: 0;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  padding: 0 1em;
 }
-.logo{
-    display: flex;
-    align-items: center;
-    width: 150px;
-    justify-content: space-around;
+.logo {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  justify-content: space-around;
 }
-#logo{
-    font-family: "Inter", sans-serif;
-    font-weight: 300;
-    font-size: 30px;
+.profile-photo {
+  margin-top: 90px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 }
-#controls{
-    display: flex;
-    width: 250px;
-    justify-content: space-around;
+#logo {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: 30px;
+}
+.controls {
+  position: relative;
+  max-width: 60px;
+  max-height: 60px;
+  padding: 0;
+}
+
+#menu::before {
+  position: absolute;
+  top: -10px;
+  left: 21px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #fff;
+}
+#menu {
+  box-sizing: border-box;
+  opacity: 0;
+  position: relative;
+  border-top: 1px solid rgb(180, 180, 180); 
+  border-bottom: 1px solid rgb(180, 180, 180);
+  margin-top: 15px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  list-style: none;
+  transition: opacity 350ms ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 0.01em;
+  box-shadow: 2px 2px 6px rgba(0,0,0,.3);
+}
+#menu li {
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  padding: 0.4em 0.4em;
+}
+#menu li:hover{
+    background-color: rgb(28, 117, 217);
+    color: white;
 }
 </style>

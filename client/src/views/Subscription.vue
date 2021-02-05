@@ -60,7 +60,7 @@ export default {
         const status  = res.data.status;
         console.log(res.data);
 
-        if (status != "active") this.$router.push("/dashboard");
+        if (status == "active") this.$router.push("/dashboard");
       }
     },
   },
