@@ -1,6 +1,6 @@
 <template>
   <div class="master">
-    <Header :img="getUser().photoURL"/>
+    <Header :img="getUser().photoURL" :mode="'white'"/>
     <div class="content">
       <h3>✨ Add a new task</h3>
 
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Header from "../components/Header";
+import Header from "../components/multi-pages/Header";
 import utilities from "../helpers/utilites";
 
 import { PrismEditor } from "vue-prism-editor";
@@ -167,8 +167,7 @@ select {
   padding: 0.5em 2em;
   border-radius: 3px;
   border: 1px solid rgb(199, 199, 199);
-  /* box-shadow: 2px 2px 6px rgba(0,0,0,.6); */
-
+  cursor: pointer;
   -moz-appearance: none; 
   -webkit-appearance: none; 
   appearance: none;
@@ -179,6 +178,7 @@ select option {
   font-size: 15px;
   font-weight: 300;
   border-radius: 88px;
+  cursor: pointer;
 }
 @media only screen and (max-width: 490px){
     form{
