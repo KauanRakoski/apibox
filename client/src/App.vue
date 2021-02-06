@@ -1,32 +1,37 @@
 <template>
   <div id="app">
-    
-    <router-view/>
+    <transition name="page-transition" 
+    enter-active-class="animate__animated animate__fadeInUp"
+    >
+      <router-view></router-view>
+    </transition>
+
   </div>
 </template>
 
 <style>
-*{
-    margin: 0;
-    box-sizing: border-box;
+
+* {
+  margin: 0;
+  box-sizing: border-box;
 }
-.button{
-    padding: 0.7em 2em;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
+.button {
+  padding: 0.7em 2em;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
 }
-.btn-main{
-    color: white;
-    background-color: #5469D4;
+.btn-main {
+  color: white;
+  background-color: #5469d4;
 }
-.btn-second{
-    color: #5469D4;
-    background-color: #E5EFFD;
+.btn-second {
+  color: #5469d4;
+  background-color: #e5effd;
 }
-.btn-second:hover{
-    background-color:  rgb(193, 209, 233);
+.btn-second:hover {
+  background-color: rgb(193, 209, 233);
 }
 </style>
