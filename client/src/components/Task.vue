@@ -66,6 +66,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-top: 90px;
 }
 .appear-enter-active,
 .appear-leave-active {

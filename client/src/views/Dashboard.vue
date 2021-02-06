@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Header v-bind:img="getUser().photoURL"/>
+    <Header v-bind:img="getUser().photoURL" :mode="'blue'"/>
     <div class="hello">
-      <h1>Welcome, <br>{{ getUser().displayName }}.</h1>
-      <h2>Here are your tasks:</h2>
+      <h1><span class="secondary">Welcome,</span><br> {{ getUser().displayName }}.</h1>
     </div>
 
     <div class="tasks">
+        <h2>Here are your tasks:</h2>
       <div class="task-container" v-for="task in UserTasks" :key="task">
         <transition name="appear">
           <Task v-bind:content="task" v-on:refresh-tasks="f" />
@@ -17,15 +17,18 @@
     
     <div class="newTask" >
     <router-link to="/new">
-        <button class="add-btn">Create new task</button>
+        <button class="add-btn">Create a New Task</button>
     </router-link>
     </div>
+
+    <Footer/>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
-import Header from "../components/Header";
+import Header from "../components/multi-pages/Header";
+import Footer from '../components/multi-pages/Footer'
 import Task from "../components/Task";
 import utilities from "../helpers/utilites";
 
@@ -34,6 +37,7 @@ export default {
   components: {
     Header,
     Task,
+    Footer
   },
   data() {
     return {
@@ -87,11 +91,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .hello {
   padding: 1.5em 1em;
   font-family: "Inter", sans-serif;
   background-color: #4460f1;
+}
+.hello .secondary{
+  font-size: 21px;
+  font-weight: 500;
 }
 .newTask{
     width: 100%;
@@ -102,14 +110,16 @@ export default {
 .add-btn{
     margin-top: 20px;
     cursor: pointer;
-    border-radius: 15px;
-    padding: 1em 3em;
+    border-radius: 40px;
+    padding: 0.9em 1.2em;
     background-color: #ffffff;
-    border: 1px solid #4460f1;
+    border: 2px solid #4460f1;
     font-family: "Inter", sans-serif;
     font-size: 17px;
+    color: #4460f1;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 400;
+    font-family: "Inter", sans-serif;
 }
 h1 {
   font-weight: 400;
@@ -120,7 +130,7 @@ h1 {
 h2 {
   color: white;
   font-weight: 300;
-  font-size: 25px;
+  font-size: 20px;
 }
 .tasks {
   background-image: linear-gradient(
