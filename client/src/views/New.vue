@@ -1,14 +1,11 @@
 <template>
   <div class="master">
-    <Header :img="getUser().photoURL" :mode="'white'"/>
+    <Header :img="getUser().photoURL" :mode="'white'" />
     <div class="content">
-      <h3>✨ Add a new task</h3>
+      <h3 v-if="$route.params == {}">✨ Add a new task</h3>
+      <h3 v-else>📝 Edit task</h3>
 
-      <form
-        @submit.prevent="submit()"
-        id="form"
-        method="POST"
-      >
+      <form @submit.prevent="submit()" id="form" method="POST">
         <div class="i-group">
           <label for="name">Name of the task:</label>
           <input name="name" id="name" placeholder="i.e Great Sausage" />
@@ -34,10 +31,16 @@
         <div class="i-group">
           <label for="code">Action:</label>
 
-          <prism-editor class="editor" v-model="code" :highlight="highlighter" line-numbers></prism-editor>
+          <prism-editor
+            class="editor"
+            v-model="code"
+            :highlight="highlighter"
+            line-numbers
+          ></prism-editor>
         </div>
 
-        <button type="submit" class="button btn-main">Create new task</button>
+        <button v-if="$route.params.task" type="submit" class="button btn-main">Save task data</button>
+        <button v-else type="submit" class="button btn-main">Create new task</button>
       </form>
     </div>
   </div>
@@ -45,11 +48,10 @@
 
 <script>
 import Header from "../components/multi-pages/Header";
-import utilities from "../helpers/utilites";
+/* import utilities from "../helpers/utilites"; */
 
 import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css"; 
-
+import "vue-prism-editor/dist/prismeditor.min.css";
 
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -65,7 +67,7 @@ export default {
   data() {
     return {
       postRoute:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/add/",
+        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io",
       code: `() => {
 
 }`,
@@ -78,6 +80,7 @@ export default {
     getUser() {
       let userInfo = localStorage.getItem("AuthUser");
       let jsonInfo = JSON.parse(userInfo);
+      console.log(this.$route.params);
       return jsonInfo;
     },
     submit() {
@@ -85,33 +88,42 @@ export default {
       let description = document.getElementById("description").value;
       let key = document.getElementById("key").value;
 
-      fetch(
-        `${
-          this.postRoute
-        }${this.getUser().uid}/?name=${name}&key=${key}&description=${description}&code=${
-          this.code
-        }`,
+    if(!this.$route.params.task){
+      fetch(`${this.postRoute}/add/${this.getUser().uid}/?name=${name}&key=${key}&description=${description}&code=${this.code}`,
         { method: "POST" }
       );
+    }
+    else{
+        fetch(`${this.postRoute}/edit/${this.$route.params.task._id}/?name=${name}&key=${key}&description=${description}&action=${this.code}`,
+        { method: "POST" }
+      );
+    }
       this.$router.push("/dashboard");
     },
   },
   mounted() {
-    var subscription = utilities.checkUserSubscription(this.getUser().email);
-    if (subscription == "inactive") this.$router.push("/subscribe");
+    /* var subscription = await utilities.checkUserSubscription(this.getUser().email);
+    if (subscription == "inactive") this.$router.push("/subscribe"); */
+    if (this.$route.params != {}) {
+      document.getElementById("name").value = this.$route.params.task.name
+      document.getElementById("description").value = this.$route.params.task.description
+      document.getElementById("key").value = this.$route.params.task.key
+
+      this.code = this.$route.params.task.action
+    }
   },
 };
 </script>
 
 <style scoped>
-body{
-    overflow-x: hidden;
+body {
+  overflow-x: hidden;
 }
-.editor{
-    background-color: #282a36;
-    color: #f8f8f2;
-    padding: 0.3em 0.1em;
-    border-radius: 3px;
+.editor {
+  background-color: #282a36;
+  color: #f8f8f2;
+  padding: 0.3em 0.1em;
+  border-radius: 3px;
 }
 .content {
   display: flex;
@@ -168,8 +180,8 @@ select {
   border-radius: 3px;
   border: 1px solid rgb(199, 199, 199);
   cursor: pointer;
-  -moz-appearance: none; 
-  -webkit-appearance: none; 
+  -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
 }
 select option {
@@ -180,13 +192,13 @@ select option {
   border-radius: 88px;
   cursor: pointer;
 }
-@media only screen and (max-width: 490px){
-    form{
-        width: 360px;
-        padding: 1em;
-    }
-    .i-group{
-        max-width: 330px;
-    }
+@media only screen and (max-width: 490px) {
+  form {
+    width: 360px;
+    padding: 1em;
+  }
+  .i-group {
+    max-width: 330px;
+  }
 }
 </style>

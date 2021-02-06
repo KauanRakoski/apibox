@@ -33,6 +33,25 @@ router.post('/add/:uid/', async (req, res) => {
     }
 })
 
+router.post('/edit/:taskId', async(req, res) => {
+    let id = req.params.taskId
+    let {name, description, key, action} = req.query
+    try{
+        await Tasks.findOneAndUpdate({_id: id}, {
+            name,
+            description,
+            key,
+            action
+        }
+        )
+
+        res.end()
+    }
+    catch(e){
+        console.log(e)
+    }
+})
+
 router.post('/getdata/:uid', async (req, res) => {
     let author = req.params.uid
 
