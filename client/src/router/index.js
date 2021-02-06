@@ -14,7 +14,7 @@ const routes = [
     name: 'Auth',
     component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')
   },
-  {path: '/new', name:'New', component: () => import(/* webpackChunkName: "add" */ '../views/New.vue')},
+  {path: '/new', name:'New', component: () => import(/* webpackChunkName: "add" */ '../views/New.vue'), props: true},
   {path: '/subscribe', name:'Subscription', component: () => import(/* webpackChunkName: "subscription" */ '../views/Subscription.vue')}
 ]
 

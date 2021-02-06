@@ -6,7 +6,7 @@
         <p>{{ content.description }}</p>
       </div>
       <div class="buttons">
-        <TaskOptions v-bind:taskId="content._id" v-on:refresh-tasks="goUp" />
+        <TaskOptions v-bind:task="content" v-on:refresh-tasks="goUp" />
         <Button
           v-bind:type="content.key"
           v-bind:taskID="content._id"

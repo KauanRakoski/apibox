@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div @click="toogleOptions(taskId)" class="dot-container">
+    <div @click="toogleOptions(task._id)" class="dot-container">
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>
     </div>
 
-    <ul class="options" v-bind:id="taskId">
-      <li><a>Edit</a></li>
-      <li><a @click="deleteTaskRequest">Delete</a></li>
+    <ul class="options" v-bind:id="task._id">
+      <li @click="editTask"><a>Edit</a></li>
+      <li @click="deleteTaskRequest"><a>Delete</a></li>
     </ul>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
     };
   },
   props: {
-    taskId: String,
+    task: Object,
   },
   methods: {
     toogleOptions(id) {
@@ -36,6 +36,9 @@ export default {
       let userInfo = localStorage.getItem("AuthUser");
       return JSON.parse(userInfo);
     },
+    editTask(){
+        this.$router.push({name: 'New', params: {task: this.task}})
+    },
     deleteTaskRequest() {
       swal({
         title: "Are you sure?",
@@ -45,7 +48,7 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          this.$emit("refresh-tasks", this.taskId);
+          this.$emit("refresh-tasks", this.task._id);
           swal("Task deleted", {
             icon: "success",
           });

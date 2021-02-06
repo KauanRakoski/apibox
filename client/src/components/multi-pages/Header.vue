@@ -1,7 +1,7 @@
 <template>
   <header :class="mode == 'blue' ? 'blue' : 'white shadow'">
     <div class="logo">
-      <img class="logoImg" src="../assets/controlLogo.svg" width="35px" height="35px" />
+      <img class="logoImg" src="../../assets/controlLogo.svg" width="35px" height="35px" />
       <h2 :class="mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'">Control</h2>
     </div>
 

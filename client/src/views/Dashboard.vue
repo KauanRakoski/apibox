@@ -1,34 +1,36 @@
 <template>
   <div>
-    <Header v-bind:img="getUser().photoURL" :mode="'blue'"/>
+    <Header v-bind:img="getUser().photoURL" :mode="'blue'" />
     <div class="hello">
-      <h1><span class="secondary">Welcome,</span><br> {{ getUser().displayName }}.</h1>
+      <h1>
+        <span class="secondary">Welcome,</span><br />
+        {{ getUser().displayName }}.
+      </h1>
     </div>
 
+    
     <div class="tasks">
-        <h2>Here are your tasks:</h2>
-      <div class="task-container" v-for="task in UserTasks" :key="task">
-        <transition name="appear">
+      <h2 >Here are your tasks:</h2>
+      
+        <div class="task-container" v-for="task in UserTasks" :key="task">
           <Task v-bind:content="task" v-on:refresh-tasks="f" />
-        </transition>
-      </div>
-
+        </div>
+      
     </div>
     
-    <div class="newTask" >
-    <router-link to="/new">
-        <button class="add-btn">Create a New Task</button>
-    </router-link>
-    </div>
 
-    <Footer/>
+    <div class="newTask">
+      <router-link to="/new">
+        <button class="add-btn">Create a New Task</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
-import Footer from '../components/multi-pages/Footer'
+
 import Task from "../components/Task";
 import utilities from "../helpers/utilites";
 
@@ -37,13 +39,12 @@ export default {
   components: {
     Header,
     Task,
-    Footer
   },
   data() {
     return {
       fetchUrl:
         "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
-      UserTasks: null,
+      UserTasks: [],
     };
   },
   methods: {
@@ -79,11 +80,11 @@ export default {
 
       let subscription = await utilities.checkUserSubscription(this.user.email);
       if (subscription == undefined) this.$router.push("/subscribe");
-      console.log("Subscription is " + subscription)
+      console.log("Subscription is " + subscription);
       this.fetchUserData(this.user.uid);
     } else {
       let subscription = await utilities.checkUserSubscription(this.user.email);
-      console.log("Subscription is " + subscription)
+      console.log("Subscription is " + subscription);
       if (subscription == undefined) this.$router.push("/subscribe");
       this.fetchUserData(this.getUser().uid);
     }
@@ -97,29 +98,30 @@ export default {
   font-family: "Inter", sans-serif;
   background-color: #4460f1;
 }
-.hello .secondary{
+.hello .secondary {
   font-size: 21px;
   font-weight: 500;
 }
-.newTask{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    text-decoration: none;
+.newTask {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  padding: 1em;
 }
-.add-btn{
-    margin-top: 20px;
-    cursor: pointer;
-    border-radius: 40px;
-    padding: 0.9em 1.2em;
-    background-color: #ffffff;
-    border: 2px solid #4460f1;
-    font-family: "Inter", sans-serif;
-    font-size: 17px;
-    color: #4460f1;
-    text-decoration: none;
-    font-weight: 400;
-    font-family: "Inter", sans-serif;
+.add-btn {
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 40px;
+  padding: 0.9em 1.2em;
+  background-color: #ffffff;
+  border: 2px solid #4460f1;
+  font-family: "Inter", sans-serif;
+  font-size: 17px;
+  color: #4460f1;
+  text-decoration: none;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
 }
 h1 {
   font-weight: 400;
@@ -149,13 +151,5 @@ h2 {
 .task-container {
   margin-bottom: 1em;
   z-index: 99;
-}
-.appear-enter-active,
-.appear-leave-active {
-  transition: opacity 0.5s;
-}
-.appear-enter,
-.appear-leave-to {
-  opacity: 0;
 }
 </style>
