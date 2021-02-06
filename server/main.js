@@ -25,8 +25,8 @@ mongoose.connect(db, {
     useFindAndModify: false, 
     useCreateIndex: true,
 })
-.then(() => console.log('Database connection established'))
-.catch((e) => console.log('Database connection denied'));
+.then(() => console.log('✔️  Database connection established'))
+.catch((e) => console.log('❌ Database connection failed'));
 
 app.get('/', (req, res) => {
     res.send('🚀 Running')
@@ -39,4 +39,4 @@ app.use('/', taskManagement)
 const Payment = require('./routes/payment')
 app.use('/payment', Payment)
 
-app.listen(3030, () => console.log('🚀 RUN app'))
+app.listen(3030, () => console.log('\x1b[41m%s\x1b[0m','🚀  Application starting...'))

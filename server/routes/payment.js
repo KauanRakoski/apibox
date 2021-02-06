@@ -4,16 +4,8 @@ const stripe = Stripe('sk_test_51HuKA0J1YBMak5vmpWELpI6iBDXLwqhecr3UX3mvyP56thOp
 
 router.post('/list', async (req, res) => {
     var userList = await stripe.customers.list()
-    var costumers = userList.data
-    var users = []
+    var users = userList.data
 
-    costumers.forEach(costumer => {
-        users.push({
-            "email": costumer.email,
-            "id": costumer.id
-        })
-    })
-    
     res.send(users)
 })
 /* router.post(
