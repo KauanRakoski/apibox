@@ -1,15 +1,14 @@
 <template>
   <header :class="mode == 'blue' ? 'blue' : 'white shadow'">
-    <div class="logo">
-      <img class="logoImg" src="../../assets/controlLogo.svg" width="35px" height="35px" />
-      <h2 :class="mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'">Control</h2>
+    <div class="">
+      <h2 :class="mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'">jsint</h2>
     </div>
 
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
         <li @click="logOut">Sign Out</li>
-        <li>Cancel Subscription</li>
+        <li @click="eraseUser">Cancel Subscription</li>
       </ul>
     </div>
   </header>
@@ -17,12 +16,15 @@
 
 <script>
 import firebase from "firebase";
+import axios from 'axios'
+import swal from "sweetalert";
 
 export default {
   name: "Header",
   props: {
     img: String,
-    mode: String
+    mode: String,
+    cId: String
   },
   methods: {
     logOut() {
@@ -35,6 +37,24 @@ export default {
       if (menu.style.opacity != 0) menu.style.opacity = 0;
       else menu.style.opacity = 1;
     },
+    eraseUser(){
+      swal({
+        title: "Are you sure?",
+        text: "This action can not be undone. All your data will be deleted.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          let userData = JSON.parse(localStorage.getItem("AuthUser"))
+         
+          axios.post(`http://localhost:3030/payment/cancel/${this.cId}/${userData.uid}`)
+          .then(this.logOut) 
+          
+        } else return;
+      });
+      
+    }
   },
 };
 </script>
@@ -77,7 +97,7 @@ header {
 }
 .logo-text {
   margin-top: 7px;  
-  font-family: "Inter", sans-serif;
+  font-family: "Comfortaa", sans-serif;
   font-weight: 300;
   font-size: 30px;
 }

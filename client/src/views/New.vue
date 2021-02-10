@@ -2,13 +2,19 @@
   <div class="master">
     <Header :img="getUser().photoURL" :mode="'white'" />
     <div class="content">
-      <h3 v-if="$route.params == {}">✨ Add a new task</h3>
+      <h3 v-if="$route.params.task == undefined">✨ Add a new task</h3>
       <h3 v-else>📝 Edit task</h3>
 
       <form @submit.prevent="submit()" id="form" method="POST">
         <div class="i-group">
           <label for="name">Name of the task:</label>
-          <input name="name" id="name" placeholder="i.e Great Sausage" />
+          <input
+            name="name"
+            id="name"
+            placeholder="i.e Great Sausage"
+            required
+            maxlength="25"
+          />
         </div>
 
         <div class="i-group">
@@ -17,12 +23,14 @@
             name="description"
             id="description"
             placeholder="i.e Starts cooking a sausage"
+            required
+            maxlength="25"
           />
         </div>
 
         <div class="i-group">
           <label for="key">Select a key: => </label>
-          <select name="key" id="key">
+          <select required name="key" id="key">
             <option value="slider">Slider</option>
             <option value="click">Click</option>
           </select>
@@ -39,8 +47,12 @@
           ></prism-editor>
         </div>
 
-        <button v-if="$route.params.task" type="submit" class="button btn-main">Save task data</button>
-        <button v-else type="submit" class="button btn-main">Create new task</button>
+        <button v-if="$route.params.task" type="submit" class="button btn-main">
+          Save task data
+        </button>
+        <button v-else type="submit" class="button btn-main">
+          Create new task
+        </button>
       </form>
     </div>
   </div>
@@ -48,6 +60,8 @@
 
 <script>
 import Header from "../components/multi-pages/Header";
+import axios from "axios";
+import swal from 'sweetalert'
 /* import utilities from "../helpers/utilites"; */
 
 import { PrismEditor } from "vue-prism-editor";
@@ -66,8 +80,7 @@ export default {
   },
   data() {
     return {
-      postRoute:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io",
+      postRoute: "http://localhost:3030",
       code: `() => {
 
 }`,
@@ -83,33 +96,45 @@ export default {
       console.log(this.$route.params);
       return jsonInfo;
     },
-    submit() {
+    async submit() {
       let name = document.getElementById("name").value;
       let description = document.getElementById("description").value;
       let key = document.getElementById("key").value;
+      console.log(this.code);
+      try {
+        if (!this.$route.params.task) {
+          await axios.post(`${this.postRoute}/add/${this.getUser().uid}`, {
+            name: name,
+            key: key,
+            description: description,
+            code: this.code,
+          });
+        } else {
+          await axios.post(
+            `${this.postRoute}/edit/${this.$route.params.task._id}`,
+            { name: name, key: key, description: description, code: this.code }
+          );
+        }
+      }catch(e){
+        
+      swal( "Oops", "something went wrong!", "error" )
 
-    if(!this.$route.params.task){
-      fetch(`${this.postRoute}/add/${this.getUser().uid}/?name=${name}&key=${key}&description=${description}&code=${this.code}`,
-        { method: "POST" }
-      );
-    }
-    else{
-        fetch(`${this.postRoute}/edit/${this.$route.params.task._id}/?name=${name}&key=${key}&description=${description}&action=${this.code}`,
-        { method: "POST" }
-      );
-    }
+      }
+
       this.$router.push("/dashboard");
     },
   },
   mounted() {
     /* var subscription = await utilities.checkUserSubscription(this.getUser().email);
     if (subscription == "inactive") this.$router.push("/subscribe"); */
-    if (this.$route.params != {}) {
-      document.getElementById("name").value = this.$route.params.task.name
-      document.getElementById("description").value = this.$route.params.task.description
-      document.getElementById("key").value = this.$route.params.task.key
+    if (this.$route.params.task != undefined) {
+      document.getElementById("name").value = this.$route.params.task.name;
+      document.getElementById(
+        "description"
+      ).value = this.$route.params.task.description;
+      document.getElementById("key").value = this.$route.params.task.key;
 
-      this.code = this.$route.params.task.action
+      this.code = this.$route.params.task.action;
     }
   },
 };
@@ -147,7 +172,7 @@ form {
   justify-content: space-around;
 }
 .i-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   width: 400px;
   display: flex;
   flex-direction: column;
@@ -156,6 +181,7 @@ form {
 .i-group label {
   font-family: "Inter", sans-serif;
   font-size: 15px;
+  font-weight: bold;
   padding: 0.5em;
 }
 .i-group input {

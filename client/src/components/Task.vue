@@ -77,4 +77,12 @@ export default {
   opacity: 0;
   transform: translateY(10px)
 }
+@media only screen and (max-width: 520px){
+  .task .content h2{
+    font-size: 19px;
+  }
+  .task .content p{
+    font-size: 15px;
+  }
+}
 </style>

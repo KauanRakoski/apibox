@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const Stripe = require('stripe');
-const stripe = Stripe('sk_test_51HuKA0J1YBMak5vmpWELpI6iBDXLwqhecr3UX3mvyP56thOpKf88592MM24SV5bcxsanQCXtjRW4nxgh3EScgpTX00VYVxFvBq')
+const Tasks = require('../models/task')
+require('dotenv').config()
+const stripe = Stripe(process.env.STRIPE_KEY)
 
 router.post('/list', async (req, res) => {
     var userList = await stripe.customers.list()
@@ -8,45 +10,7 @@ router.post('/list', async (req, res) => {
 
     res.send(users)
 })
-/* router.post(
-  '/stripe-webhook',
-  bodyParser.raw({ type: 'application/json' }),
-  async (req, res) => {  
-    let event;
 
-    try {
-      event = stripe.webhooks.constructEvent(
-        req.body,
-        req.headers['stripe-signature'],
-        process.env.STRIPE_WEBHOOK_SECRET
-      );
-    } catch (err) {
-      console.log(err);
-      console.log(`⚠️  Webhook signature verification failed.`);
-      console.log(
-        `⚠️  Check the env file and enter the correct webhook secret.`
-      );
-      return res.sendStatus(400);
-    }
-    // Extract the object from the event.
-    const dataObject = event.data.object;
-
-    switch (event.type) {
-      case 'invoice.paid':
-        break;
-      case 'invoice.payment_failed':
-        break;
-      case 'customer.subscription.deleted':
-        if (event.request != null) {
-        } else {
-        }
-        break;
-      default:
-      // Unexpected event type
-    }
-    res.sendStatus(200);
-  }
-) */
 
 router.post('/create-costumer/:email', async (req, res) => {
     const costumer = await stripe.customers.create({
@@ -87,4 +51,16 @@ router.post('/sub', async (req, res) => {
     });
 })
 
+router.post('/cancel/:cId/:uid', async(req, res) => {
+  const customerId = req.params.cId
+  const uid = req.params.uid
+  try{  
+    await stripe.customers.del(customerId)
+    await Tasks.deleteMany({author: uid})
+    res.end()
+  }
+  catch(e){
+    console.log(e)
+  }
+})
 module.exports = router

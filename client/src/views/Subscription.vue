@@ -3,15 +3,17 @@
     <Header :img="getUser().photoURL" :mode="'white'" />
     <div class="main">
       <form id="payment-form" class="payment shadow">
-        <h3 class="subscribe-text">Subscribe for just $0,50</h3>
-        <div ref="card" class="form-control"></div>
-        <input
-          :disabled="lockSubmit"
-          class="button big btn-main shadow-sm"
-          type="submit"
-          value="Subscribe"
-          v-on:click.prevent="purchase"
-        />
+        <h3 class="subscribe-text">Subscribe for just $0,50/month</h3>
+        
+          <div ref="card" class="form-control"></div>
+          <input
+            :disabled="lockSubmit"
+            class="button big btn-main shadow-sm"
+            type="submit"
+            value="Subscribe"
+            v-on:click.prevent="purchase"
+          />
+        
       </form>
     </div>
   </div>
@@ -30,8 +32,7 @@ export default {
   },
   data() {
     return {
-      backendUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/",
+      backendUrl: "http://localhost:3030/payment/",
       spk:
         "pk_test_51HuKA0J1YBMak5vmu4kTKH0t32DNFWrkjaZIe2Tzcu6KF2lqzro7KJp6kA9G29wkCGWafrlILXAweAZHuFJdUxg600WqPMhPpa",
       stripe: undefined,
@@ -101,14 +102,17 @@ export default {
 }
 .subscribe-text {
   font-family: "Inter", sans-serif;
+  font-size: 23px;
   font-weight: bold;
 }
 .payment {
   width: 400px;
+  height: 300px;
   border-radius: 4px;
   padding: 3em 1em;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 }
 .form-control {
@@ -117,6 +121,10 @@ export default {
 }
 .big {
   width: 365px;
+  height: 50.4px;
   padding: 0.5em 0;
+}
+.big:active{
+  background-color: aliceblue;
 }
 </style>

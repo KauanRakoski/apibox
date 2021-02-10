@@ -1,5 +1,4 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const Tasks = require('../models/task')
 
 const router = express.Router()
@@ -11,7 +10,7 @@ router.post('/add/:uid/', async (req, res) => {
         description,
         key,
         code
-    } = req.query
+    } = req.body
     console.table({
         name,
         description,
@@ -29,13 +28,13 @@ router.post('/add/:uid/', async (req, res) => {
 
         res.end()
     } catch (e) {
-        console.log(e)
+        res.send({error: true})
     }
 })
 
 router.post('/edit/:taskId', async(req, res) => {
     let id = req.params.taskId
-    let {name, description, key, action} = req.query
+    let {name, description, key, action} = req.body
     try{
         await Tasks.findOneAndUpdate({_id: id}, {
             name,
@@ -48,7 +47,7 @@ router.post('/edit/:taskId', async(req, res) => {
         res.end()
     }
     catch(e){
-        console.log(e)
+        res.send({error: true})
     }
 })
 
@@ -61,7 +60,7 @@ router.post('/getdata/:uid', async (req, res) => {
         })
         res.send(tasks)
     } catch (e) {
-        console.log(e)
+        res.send({error: true})
     }
 })
 
@@ -73,10 +72,9 @@ router.post('/delete/:taskId', async (req, res) => {
             _id: taskId
         })
         res.end()
-        console.log('💔 Deleted')
+        
     } catch (e) {
-        console.log('Oh oh...')
-        console.table(e)
+        res.send({error: true})
     }
 })
 

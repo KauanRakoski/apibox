@@ -12,7 +12,6 @@ new Vue({
   created() {
     firebase.initializeApp(firebaseConfig)
     
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.$router.push('/dashboard').catch(() => {})

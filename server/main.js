@@ -4,13 +4,13 @@ const app = express()
 const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
 
-// Enabling cors
+/* // Enabling cors
 var corsOptions = {
   origin: ['https://8080-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io'],
   optionsSuccessStatus: 200
-}
+} */
 
-app.use(cors(corsOptions))
+app.use(cors())
 
 // Body-parser
 app.use(express.urlencoded({extended: false}));

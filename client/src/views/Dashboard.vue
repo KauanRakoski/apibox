@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header v-bind:img="getUser().photoURL" :mode="'blue'" />
+    <Header v-bind:img="getUser().photoURL" :mode="'blue'" :cId="costumerId" />
     <div class="hello">
       <h1>
         <span class="secondary">Welcome,</span><br />
@@ -8,16 +8,23 @@
       </h1>
     </div>
 
-    
-    <div class="tasks">
-      <h2 >Here are your tasks:</h2>
-      
-        <div class="task-container" v-for="task in UserTasks" :key="task">
-          <Task v-bind:content="task" v-on:refresh-tasks="f" />
-        </div>
-      
+    <div class="tasks" v-if="UserTasks.length <= 0">
+      <h2>Here are your tasks:</h2>
+      <div class="noTasks">
+        <img src="../assets/desert.svg" width="150px" height="150px" />
+        <h3>It seems that you do not have any task yet...</h3>
+      </div>
     </div>
-    
+
+    <div class="tasks" v-else>
+      <h2>Here are your tasks:</h2>
+
+      <div class="task-container" v-for="task in UserTasks" :key="task">
+        <Task v-bind:content="task" v-on:refresh-tasks="f" />
+      </div>
+    </div>
+
+
 
     <div class="newTask">
       <router-link to="/new">
@@ -30,7 +37,7 @@
 <script>
 import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
-
+import swal from 'sweetalert'
 import Task from "../components/Task";
 import utilities from "../helpers/utilites";
 
@@ -42,9 +49,9 @@ export default {
   },
   data() {
     return {
-      fetchUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
+      fetchUrl: "http://localhost:3030/getdata/",
       UserTasks: [],
+      costumerId: "",
     };
   },
   methods: {
@@ -60,33 +67,39 @@ export default {
         this.UserTasks = json;
         console.log(this.UserTasks);
       } catch (e) {
-        console.log(e);
+        swal( "Something went wrong", "Unable to request tasks", "error" )
       }
     },
     async f(taskId) {
-      fetch(
-        `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/${taskId}`,
-        { method: "POST" }
-      ).then(() => {
-        this.fetchUserData(this.getUser().uid);
-      });
+      fetch(`http://localhost:3030/delete/${taskId}`, { method: "POST" }).then(
+        () => {
+          this.fetchUserData(this.getUser().uid);
+        }
+      );
     },
+  },
+  beforeMount(){
+    if(firebase.auth().currentUser == null || firebase.auth().currentUser == undefined){
+      let userInfo = localStorage.getItem("AuthUser")
+      var jsonInfo = JSON.parse(userInfo)
+    } else jsonInfo = firebase.auth().currentUser
+    
+    utilities.checkUserSubscription(jsonInfo.email)
+    .then(subscription => {
+      if(subscription == undefined) this.$router.push('/subscribe')
+      this.costumerId = subscription.id
+      }
+      )
+    
   },
   async mounted() {
     this.user = firebase.auth().currentUser || false;
 
     if (this.user) {
-      localStorage.setItem("AuthUser", JSON.stringify(this.user));
-
-      let subscription = await utilities.checkUserSubscription(this.user.email);
-      if (subscription == undefined) this.$router.push("/subscribe");
-      console.log("Subscription is " + subscription);
-      this.fetchUserData(this.user.uid);
+      localStorage.setItem("AuthUser", JSON.stringify(this.user))
+      await this.fetchUserData(this.user.uid);
     } else {
-      let subscription = await utilities.checkUserSubscription(this.user.email);
-      console.log("Subscription is " + subscription);
-      if (subscription == undefined) this.$router.push("/subscribe");
-      this.fetchUserData(this.getUser().uid);
+      await this.fetchUserData(this.getUser().uid);
     }
   },
 };
@@ -108,6 +121,17 @@ export default {
   justify-content: center;
   text-decoration: none;
   padding: 1em;
+}
+.noTasks{
+  padding: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+.noTasks h3{
+  margin-top: 15px;
 }
 .add-btn {
   margin-top: 20px;
