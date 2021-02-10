@@ -5,5 +5,5 @@
 </p>
  
  <p align="center">
-  <b>Keep control and manage automated, by using code and buttons</b>
+  <b>Keep control and manage tasks using code and buttons</b>
  </p>
