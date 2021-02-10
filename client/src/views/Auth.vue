@@ -1,13 +1,14 @@
 <template>
   <div class="master">
-    <div>
-      <h1>Sign In To Control</h1>
+    <div class="hello">
+      <img id="jsint-cube" src="../assets/jsint-cube.svg" width="60px" height="60px">
+      <h1>Sign In To Jsint</h1>
       <img src="../assets/login.jpg" width="500px" height="500px" />
     </div>
 
     <div class="buttons">
         <h3>Continue with:</h3>
-        <p>Don't worry. We won't post anything anywhere.</p>
+        <p>Don't worry. We won't share any of your data.</p>
       <div id="loginButtons"></div>
     </div>
   </div>
@@ -44,6 +45,9 @@ export default {
   align-items: center;
   justify-content: space-around;
 }
+#jsint-cube{
+  display: none;
+}
 h1 {
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
@@ -70,5 +74,24 @@ p{
  align-items: center;
  border-radius: 8px;
  box-shadow: 2px 2px 4px rgba(0,0,0,.3)
+}
+@media only screen and (max-width: 790px){
+  .master{
+    flex-direction: column;
+  }
+  #jsint-cube{
+  display: block;
+}
+.hello{
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  align-items: center;
+  justify-content: space-around;
+}
+  img{
+    display: none;
+  }
 }
 </style>
