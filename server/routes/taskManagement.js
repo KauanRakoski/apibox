@@ -34,13 +34,13 @@ router.post('/add/:uid/', async (req, res) => {
 
 router.post('/edit/:taskId', async(req, res) => {
     let id = req.params.taskId
-    let {name, description, key, action} = req.body
+    let {name, description, key, code} = req.body
     try{
         await Tasks.findOneAndUpdate({_id: id}, {
             name,
             description,
             key,
-            action
+            action: code
         }
         )
 
