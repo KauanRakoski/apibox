@@ -65,7 +65,7 @@ export default {
         let json = await tasks.json();
 
         this.UserTasks = json;
-        console.log(this.UserTasks);
+        
       } catch (e) {
         swal( "Something went wrong", "Unable to request tasks", "error" )
       }

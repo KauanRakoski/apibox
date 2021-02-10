@@ -81,44 +81,46 @@ export default {
   data() {
     return {
       postRoute: "http://localhost:3030",
-      code: `() => {
+      code: `(i) => {
 
 }`,
     };
   },
   methods: {
     highlighter(code) {
-      return highlight(code, languages.js); //returns html
+      return highlight(code, languages.js); 
     },
     getUser() {
       let userInfo = localStorage.getItem("AuthUser");
       let jsonInfo = JSON.parse(userInfo);
-      console.log(this.$route.params);
+      
       return jsonInfo;
     },
     async submit() {
       let name = document.getElementById("name").value;
       let description = document.getElementById("description").value;
       let key = document.getElementById("key").value;
-      console.log(this.code);
+      
       try {
         if (!this.$route.params.task) {
           await axios.post(`${this.postRoute}/add/${this.getUser().uid}`, {
             name: name,
             key: key,
             description: description,
-            code: this.code,
+            code: this.code
           });
         } else {
           await axios.post(
             `${this.postRoute}/edit/${this.$route.params.task._id}`,
-            { name: name, key: key, description: description, code: this.code }
+            { name: name,
+            key: key,
+            description: description,
+            code: this.code }
           );
         }
       }catch(e){
-        
-      swal( "Oops", "something went wrong!", "error" )
 
+      swal( "Oops", "something went wrong!", "error" )
       }
 
       this.$router.push("/dashboard");
