@@ -7,3 +7,7 @@
  <p align="center">
   <b>Keep control and manage tasks using code and buttons</b>
  </p>
+
+ <p align="center">
+  <img src="./assets/jsint-mockup.svg"/>
+ </p>
