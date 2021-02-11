@@ -15,6 +15,9 @@
   margin: 0;
   box-sizing: border-box;
 }
+body{
+  overflow-x: hidden;
+}
 .button {
   padding: 0.7em 2em;
   outline: none;
