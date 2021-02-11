@@ -1,6 +1,8 @@
 <template>
   <header :class="mode == 'blue' ? 'blue' : 'white shadow'">
-    <div class="">
+    <div class="logo">
+      <img v-if="mode == 'blue'" src="../../assets/jsint-cube-white.svg" width="50px" height="50px"/>
+      <img v-else src="../../assets/jsint-cube-blue.svg" width="50px" height="50px"/>
       <h2 :class="mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'">jsint</h2>
     </div>
 
@@ -8,7 +10,8 @@
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
         <li @click="logOut">Sign Out</li>
-        <li @click="eraseUser">Cancel Subscription</li>
+        <li @click="eraseUser">Unsubscribe</li>
+        <li @click="openDocs">Documentation</li>
       </ul>
     </div>
   </header>
@@ -34,8 +37,14 @@ export default {
     toggleMenu() {
       let menu = document.getElementById("menu");
 
-      if (menu.style.opacity != 0) menu.style.opacity = 0;
-      else menu.style.opacity = 1;
+      if (menu.style.opacity != 0){
+        menu.style.opacity = 0;
+        menu.style.visibility = 'hidden'
+      }
+      else{ 
+        menu.style.opacity = 1
+         menu.style.visibility = 'visible'
+      }
     },
     eraseUser(){
       swal({
@@ -51,9 +60,11 @@ export default {
           axios.post(`http://localhost:3030/payment/cancel/${this.cId}/${userData.uid}`)
           .then(this.logOut) 
           
-        } else return;
-      });
-      
+        } else return
+      })
+    },
+    openDocs(){
+      window.open('https://www.github.com/hipesoft/jsint', '_blank')
     }
   },
 };
@@ -89,9 +100,10 @@ header {
   justify-content: space-around;
 }
 .profile-photo {
-  margin-top: 90px;
+  margin-top: 120px;
   width: 50px;
   height: 50px;
+  margin-right: 30px;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -111,7 +123,7 @@ header {
 #menu::before {
   position: absolute;
   top: -10px;
-  left: 21px;
+  left: 90px;
   content: '';
   width: 0;
   height: 0;
@@ -120,12 +132,14 @@ header {
   border-bottom: 10px solid #fff;
 }
 #menu {
+  width: 120px;
   box-sizing: border-box;
   opacity: 0;
+  visibility: hidden;
   position: relative;
   border-top: 1px solid rgb(180, 180, 180); 
   border-bottom: 1px solid rgb(180, 180, 180);
-  margin-top: 15px;
+  margin: 15px -50px 0 -70px ;
   background-color: #ffffff;
   border-radius: 4px;
   list-style: none;
@@ -138,13 +152,24 @@ header {
   box-shadow: 2px 2px 6px rgba(0,0,0,.3);
 }
 #menu li {
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
   width: 100%;
+  font-size: 15px;
   cursor: pointer;
   padding: 0.4em 0.4em;
 }
 #menu li:hover{
     background-color: rgb(28, 117, 217);
     color: white;
+}
+#menu li a{
+  text-decoration: none;
+  text-emphasis-color: white;
+}
+
+
+@media only screen and (max-width: 700px){
+  
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="master">
     <div class="hello">
-      <img id="jsint-cube" src="../assets/jsint-cube.svg" width="60px" height="60px">
+      <img id="jsint-cube" src="../assets/jsint-cube-blue.svg" width="60px" height="60px">
       <h1>Sign In To Jsint</h1>
       <img src="../assets/login.jpg" width="500px" height="500px" />
     </div>
