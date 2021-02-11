@@ -9,8 +9,9 @@
  </p>
  
 <p align="center">
-  <a href="https://github.com/hipesoft/jsint/issues/new?assignees=&labels=bug&template=bug_report.md&title=Bug+report"><b>Report a bug</b></a>
-  <a href="https://github.com/hipesoft/jsint/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=Feature+request"><b>Request a feature</b></a>
+  <kbd><a href="https://github.com/hipesoft/jsint/issues/new?assignees=&labels=bug&template=bug_report.md&title=Bug+report"><b>Report a bug</b></a></kbd>
+  &nbsp; &nbsp;
+  <kbd><a href="https://github.com/hipesoft/jsint/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=Feature+request"><b>Request a feature</b></a></kbd>
 </p>
 
 <p align="center">
