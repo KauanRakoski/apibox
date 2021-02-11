@@ -13,7 +13,3 @@
   &nbsp; &nbsp;
   <kbd><a href="https://github.com/hipesoft/jsint/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=Feature+request"><b>Request a feature</b></a></kbd>
 </p>
-
-<p align="center">
-  <img src="./assets/jsint_logo-full.svg"/>
-</p>
