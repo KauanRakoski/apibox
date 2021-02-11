@@ -176,4 +176,10 @@ h2 {
   margin-bottom: 1em;
   z-index: 99;
 }
+
+@media only screen and (max-width: 800px){
+  .add-btn{
+    padding: 0.5em 1em;
+  }
+}
 </style>
