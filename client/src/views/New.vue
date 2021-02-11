@@ -13,7 +13,7 @@
             id="name"
             placeholder="i.e Great Sausage"
             required
-            maxlength="25"
+            maxlength="15"
           />
         </div>
 
@@ -24,12 +24,12 @@
             id="description"
             placeholder="i.e Starts cooking a sausage"
             required
-            maxlength="25"
+            maxlength="15"
           />
         </div>
 
         <div class="i-group">
-          <label for="key">Select a key: => </label>
+          <label for="key">Select a key: </label>
           <select required name="key" id="key">
             <option value="slider">Slider</option>
             <option value="click">Click</option>
@@ -97,6 +97,10 @@ export default {
       return jsonInfo;
     },
     async submit() {
+      if(this.code == ''){
+        swal("Oh, oh...", "Make sure to fill all fields", "warning")
+        return
+      }
       let name = document.getElementById("name").value;
       let description = document.getElementById("description").value;
       let key = document.getElementById("key").value;
@@ -160,6 +164,7 @@ body {
 h3 {
   text-align: center;
   font-family: "Inter", sans-serif;
+  font-weight: 600;
   margin: 2em 0;
   font-size: 23px;
 }
