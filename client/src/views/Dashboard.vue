@@ -37,7 +37,6 @@
 <script>
 import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
-import swal from 'sweetalert'
 import Task from "../components/Task";
 import utilities from "../helpers/utilites";
 
@@ -61,21 +60,21 @@ export default {
     },
     async fetchUserData(user) {
       try {
-        let tasks = await fetch(`${this.fetchUrl + user}/`, { method: "POST" });
-        let json = await tasks.json();
+        let tasks = await fetch(`${this.fetchUrl + user}/`, { method: "POST" })
+        let json = await tasks.json()
+
+        if(json.error == true) utilities.showError()
 
         this.UserTasks = json;
         
       } catch (e) {
-        swal( "Something went wrong", "Unable to request tasks", "error" )
+        utilities.showError(e)
       }
     },
     async f(taskId) {
-      fetch(`http://localhost:3030/delete/${taskId}`, { method: "POST" }).then(
-        () => {
-          this.fetchUserData(this.getUser().uid);
-        }
-      );
+      fetch(`http://localhost:3030/delete/${taskId}`, { method: "POST" })
+      .then(() => {this.fetchUserData(this.getUser().uid)})
+      .catch((e) => utilities.showError(e))
     },
   },
   beforeMount(){
@@ -88,8 +87,8 @@ export default {
     .then(subscription => {
       if(subscription == undefined) this.$router.push('/subscribe')
       this.costumerId = subscription.id
-      }
-      )
+      })
+      .catch(e => this.showError(e))
     
   },
   async mounted() {
