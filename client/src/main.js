@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import router from './router'
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+import './registerServiceWorker'
 
 Vue.use(PerfectScrollbar)
 
