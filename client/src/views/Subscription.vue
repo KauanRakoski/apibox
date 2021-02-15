@@ -23,7 +23,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import Header from "../components/multi-pages/Header";
-/* import utilities from '../helpers/utilites' */
+/* import utilities from '../helpers/utilities' */
 
 export default {
   name: "Subscription",

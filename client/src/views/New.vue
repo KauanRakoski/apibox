@@ -62,7 +62,8 @@
 import Header from "../components/multi-pages/Header";
 import axios from "axios";
 import swal from 'sweetalert'
-/* import utilities from "../helpers/utilites"; */
+import utilities from "../helpers/utilities";
+import firebase from 'firebase';
 
 import { PrismEditor } from "vue-prism-editor";
 import "vue-prism-editor/dist/prismeditor.min.css";
@@ -123,17 +124,27 @@ export default {
           );
         }
       }catch(e){
-
-      swal( "Oops", "something went wrong!", "error" )
+        utilities.showError(e)
       }
 
       this.$router.push("/dashboard");
     },
   },
+  beforeMount(){
+    if(firebase.auth().currentUser == null || firebase.auth().currentUser == undefined){
+      let userInfo = localStorage.getItem("AuthUser")
+      var jsonInfo = JSON.parse(userInfo)
+    } else jsonInfo = firebase.auth().currentUser
+    
+    utilities.checkUserSubscription(jsonInfo.email)
+    .then(subscription => {
+      if(subscription == undefined) this.$router.push('/subscribe')
+      this.costumerId = subscription.id
+      })
+      .catch(e => utilities.showError(e))
+  },
   mounted() {
-    /* var subscription = await utilities.checkUserSubscription(this.getUser().email);
-    if (subscription == "inactive") this.$router.push("/subscribe"); */
-    if (this.$route.params.task != undefined) {
+      if (this.$route.params.task != undefined) {
       document.getElementById("name").value = this.$route.params.task.name;
       document.getElementById(
         "description"

@@ -38,7 +38,7 @@
 import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
 import Task from "../components/Task";
-import utilities from "../helpers/utilites";
+import utilities from "../helpers/utilities";
 
 export default {
   name: "Dashboard",
@@ -88,7 +88,7 @@ export default {
       if(subscription == undefined) this.$router.push('/subscribe')
       this.costumerId = subscription.id
       })
-      .catch(e => this.showError(e))
+      .catch(e => utilities.showError(e))
     
   },
   async mounted() {
