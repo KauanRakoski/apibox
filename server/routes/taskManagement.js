@@ -11,12 +11,7 @@ router.post('/add/:uid/', async (req, res) => {
         key,
         code
     } = req.body
-    console.table({
-        name,
-        description,
-        key,
-        code
-    })
+    
     try {
         await Tasks.create({
             author: uid,
