@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      fetchUrl: "http://localhost:3030/getdata/",
+      fetchUrl: "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
       UserTasks: [],
       costumerId: "",
     };
@@ -72,7 +72,7 @@ export default {
       }
     },
     async f(taskId) {
-      fetch(`http://localhost:3030/delete/${taskId}`, { method: "POST" })
+      fetch(`https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/${taskId}`, { method: "POST" })
       .then(() => {this.fetchUserData(this.getUser().uid)})
       .catch((e) => utilities.showError(e))
     },

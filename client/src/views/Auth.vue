@@ -78,6 +78,8 @@ p{
 @media only screen and (max-width: 790px){
   .master{
     flex-direction: column;
+    justify-content: center;
+    padding: 0;
   }
   #jsint-cube{
   display: block;
