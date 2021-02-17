@@ -44,7 +44,6 @@ export default {
   methods: {
     getUser() {
       let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
-
       return userInfo;
     },
     async purchase() {

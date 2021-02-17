@@ -9,9 +9,9 @@
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
-        <li @click="logOut">Sign Out</li>
-        <li @click="eraseUser">Unsubscribe</li>
-        <li @click="openDocs">Documentation</li>
+        <li class="li" id="li1" @click="logOut">Sign Out</li>
+        <li class="li" id="li2" @click="eraseUser">Unsubscribe</li>
+        <li class="li" @click="openDocs">Documentation</li>
       </ul>
     </div>
   </header>
@@ -30,9 +30,16 @@ export default {
     cId: String
   },
   methods: {
+    spinner(id){
+        let item = document.getElementById(id)
+        item.removeChild(item.childNodes[0])
+
+        item.innerHTML = `<div class="text-center"><div class="spinner-border text-primary" style="width: 1.2rem; height: 1.2rem;" role="status"></div></div>`
+    },
     logOut() {
+      this.spinner('li1')
       firebase.auth().signOut();
-      localStorage.removeItem("AuthUser");
+      localStorage.removeItem("AuthUser")
     },
     toggleMenu() {
       let menu = document.getElementById("menu");
@@ -55,9 +62,10 @@ export default {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
+           this.spinner('li2')  
           let userData = JSON.parse(localStorage.getItem("AuthUser"))
          
-          axios.post(`http://localhost:3030/payment/cancel/${this.cId}/${userData.uid}`)
+          axios.post(`https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/cancel/${this.cId}/${userData.uid}`)
           .then(this.logOut) 
           
         } else return
@@ -151,7 +159,7 @@ header {
   padding: 0.01em;
   box-shadow: 2px 2px 6px rgba(0,0,0,.3);
 }
-#menu li {
+.li {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
   width: 100%;
@@ -159,11 +167,11 @@ header {
   cursor: pointer;
   padding: 0.4em 0.4em;
 }
-#menu li:hover{
+.li:hover{
     background-color: rgb(28, 117, 217);
     color: white;
 }
-#menu li a{
+.li a{
   text-decoration: none;
   text-emphasis-color: white;
 }

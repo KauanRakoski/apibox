@@ -2,9 +2,12 @@
   <div>
     <Header v-bind:img="getUser().photoURL" :mode="'blue'" :cId="costumerId" />
     <div class="hello">
-      <h1>
-        <span class="secondary">Welcome,</span><br />
+      <h1 v-if="getUser() != null">
+        <span  class="secondary">Welcome,</span><br />
         {{ getUser().displayName }}.
+      </h1>
+      <h1 v-else>
+          Welcome
       </h1>
     </div>
 
@@ -23,8 +26,6 @@
         <Task v-bind:content="task" v-on:refresh-tasks="f" />
       </div>
     </div>
-
-
 
     <div class="newTask">
       <router-link to="/new">
@@ -48,7 +49,8 @@ export default {
   },
   data() {
     return {
-      fetchUrl: "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
+      fetchUrl:
+        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
       UserTasks: [],
       costumerId: "",
     };
@@ -58,48 +60,62 @@ export default {
       let userInfo = localStorage.getItem("AuthUser");
       return JSON.parse(userInfo);
     },
+    checkSub(user){
+    utilities.checkUserSubscription(user.email)
+      .then((subscription) => {
+        if (subscription == undefined) this.$router.push("/subscribe")
+        else this.costumerId = subscription.id;
+      })
+      .catch((e) => utilities.showError(e));
+    },
     async fetchUserData(user) {
       try {
-        let tasks = await fetch(`${this.fetchUrl + user}/`, { method: "POST" })
-        let json = await tasks.json()
+        let tasks = await fetch(`${this.fetchUrl + user}/`, { method: "POST" });
+        let json = await tasks.json();
 
-        if(json.error == true) utilities.showError()
+        if (json.error == true) utilities.showError();
 
         this.UserTasks = json;
-        
       } catch (e) {
-        utilities.showError(e)
+        utilities.showError(e);
       }
     },
     async f(taskId) {
-      fetch(`https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/${taskId}`, { method: "POST" })
-      .then(() => {this.fetchUserData(this.getUser().uid)})
-      .catch((e) => utilities.showError(e))
+      fetch(
+        `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/${taskId}`,
+        { method: "POST" }
+      )
+        .then(() => {
+          this.fetchUserData(this.getUser().uid);
+        })
+        .catch((e) => utilities.showError(e));
     },
   },
-  beforeMount(){
-    if(firebase.auth().currentUser == null || firebase.auth().currentUser == undefined){
-      let userInfo = localStorage.getItem("AuthUser")
-      var jsonInfo = JSON.parse(userInfo)
-    } else jsonInfo = firebase.auth().currentUser
-    
-    utilities.checkUserSubscription(jsonInfo.email)
-    .then(subscription => {
-      if(subscription == undefined) this.$router.push('/subscribe')
-      this.costumerId = subscription.id
-      })
-      .catch(e => utilities.showError(e))
-    
+  beforeMount() {
+    var jsonInfo;
+
+    firebase.auth().onAuthStateChanged(async(user) => {
+      if (user) {
+        jsonInfo = firebase.auth().currentUser;
+        this.checkSub(jsonInfo)
+      } else {
+        let userInfo = localStorage.getItem("AuthUser");
+        jsonInfo = JSON.parse(userInfo)
+        this.checkSub(jsonInfo)
+      }
+    })
   },
   async mounted() {
-    this.user = firebase.auth().currentUser || false;
-
-    if (this.user) {
-      localStorage.setItem("AuthUser", JSON.stringify(this.user))
-      await this.fetchUserData(this.user.uid);
-    } else {
-      await this.fetchUserData(this.getUser().uid);
-    }
+    var fetchFunc = this.fetchUserData;
+    firebase.auth().onAuthStateChanged(async function (user) {
+      if (user) {
+        localStorage.setItem("AuthUser", JSON.stringify(user));
+        await fetchFunc(user.uid);
+      } else {
+        let userInfo = localStorage.getItem("AuthUser");
+        await fetchFunc(JSON.parse(userInfo).uid);
+      }
+    });
   },
 };
 </script>
@@ -121,7 +137,7 @@ export default {
   text-decoration: none;
   padding: 1em;
 }
-.noTasks{
+.noTasks {
   padding: 1em;
   width: 100%;
   display: flex;
@@ -129,7 +145,7 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
-.noTasks h3{
+.noTasks h3 {
   margin-top: 15px;
 }
 .add-btn {
@@ -176,8 +192,8 @@ h2 {
   z-index: 99;
 }
 
-@media only screen and (max-width: 800px){
-  .add-btn{
+@media only screen and (max-width: 800px) {
+  .add-btn {
     padding: 0.5em 1em;
   }
 }
