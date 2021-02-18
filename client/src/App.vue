@@ -27,7 +27,8 @@ export default {
 </script>
 <style>
 .ps {
-  height: 100vh;
+  height: 110vh;
+  overflow-x: hidden;
 }
 html{
   scrollbar-width: none;
@@ -37,6 +38,7 @@ html{
   box-sizing: border-box;
 }
 body{
+    overflow-x: hidden;
   -ms-overflow-style: none;  
   scrollbar-width: none;  
 

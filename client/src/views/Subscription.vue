@@ -2,18 +2,17 @@
   <div>
     <Header :img="getUser().photoURL" :mode="'white'" />
     <div class="main">
-      <form id="payment-form" class="payment shadow">
+      <form @submit.prevent="purchase" id="payment-form" class="payment shadow">
         <h3 class="subscribe-text">Subscribe for just $0,50/month</h3>
-        
-          <div ref="card" class="form-control"></div>
-          <input
-            :disabled="lockSubmit"
-            class="button big btn-main shadow-sm"
-            type="submit"
-            value="Subscribe"
-            v-on:click.prevent="purchase"
-          />
-        
+
+        <div ref="card" class="form-control"></div>
+        <button
+          :disabled="lockSubmit"
+          class="button big btn-main shadow-sm"
+          id="subBtn"
+          type="submit"
+          value="Subscribe"
+        >Subscribe</button>
       </form>
     </div>
   </div>
@@ -23,7 +22,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import Header from "../components/multi-pages/Header";
-/* import utilities from '../helpers/utilities' */
+import swal from 'sweetalert'
 
 export default {
   name: "Subscription",
@@ -32,22 +31,31 @@ export default {
   },
   data() {
     return {
-      backendUrl: "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/",
+      backendUrl:
+        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/",
       spk:
         "pk_test_51HuKA0J1YBMak5vmu4kTKH0t32DNFWrkjaZIe2Tzcu6KF2lqzro7KJp6kA9G29wkCGWafrlILXAweAZHuFJdUxg600WqPMhPpa",
       stripe: undefined,
       card: undefined,
       lockSubmit: false,
-      
     };
   },
   methods: {
+    buttonLoad() {
+        let btn = document.getElementById("subBtn")
+        let item = btn.childNodes[0]
+
+        btn.removeChild(item)
+        btn.innerHTML = `<div class="text-center"><div class="spinner-border text-light" style="width: 1.2rem; height: 1.2rem;"  role="status"></div></div>`
+    },
     getUser() {
       let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
       return userInfo;
     },
-    async purchase() {
-      this.lockSubmit = true;
+    async purchase(e) {
+      if (e.keyCode == 13) return
+      
+      this.lockSubmit = true
 
       let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
       let userEmail = userInfo.email;
@@ -61,16 +69,16 @@ export default {
       });
 
       if (result.error) {
-        console.log(result.error.message);
+        swal("Oops..",`${result.error.message}`, "error");
       } else {
+          this.buttonLoad()
         const res = await axios.post(`${this.backendUrl}sub`, {
           payment_method: result.paymentMethod.id,
           email: userEmail,
         });
 
         const status = res.data.status;
-        console.log(res.data);
-
+       
         if (status == "active") this.$router.push("/dashboard");
       }
     },
@@ -123,7 +131,18 @@ export default {
   height: 50.4px;
   padding: 0.5em 0;
 }
-.big:active{
+.big:active {
   background-color: aliceblue;
+}
+@media only screen and (max-width: 550px){
+    .payment{
+        width: 350px;
+    }
+    .subscribe-text{
+        font-size: 20px;
+    }
+    .big{
+        width: 325px;
+    }
 }
 </style>

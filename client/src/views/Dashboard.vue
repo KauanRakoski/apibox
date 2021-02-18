@@ -196,5 +196,13 @@ h2 {
   .add-btn {
     padding: 0.5em 1em;
   }
+  .noTasks img{
+      width: 100px;
+      height: 100px;
+  }
+  .noTasks h3 {
+      text-align: center;
+   font-size: 20px;
+}
 }
 </style>
