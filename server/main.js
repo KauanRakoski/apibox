@@ -39,4 +39,8 @@ app.use('/', taskManagement)
 const Payment = require('./routes/payment')
 app.use('/payment', Payment)
 
+const Api = require('./routes/remoteAcess')
+app.use('/api', Api)
+
+// Listening
 app.listen(3030, () => console.log('\x1b[41m%s\x1b[0m','🚀  Application starting...'))

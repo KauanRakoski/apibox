@@ -57,12 +57,13 @@ export default {
   },
   methods: {
     getUser() {
-      let userInfo = localStorage.getItem("AuthUser");
-      return JSON.parse(userInfo);
+      let userInfo = localStorage.getItem("AuthUser")
+      return JSON.parse(userInfo)
     },
     checkSub(user){
     utilities.checkUserSubscription(user.email)
-      .then((subscription) => {
+      .then(async(sub) => {
+          let subscription = await sub
         if (subscription == undefined) this.$router.push("/subscribe")
         else this.costumerId = subscription.id;
       })
@@ -115,9 +116,9 @@ export default {
         let userInfo = localStorage.getItem("AuthUser");
         await fetchFunc(JSON.parse(userInfo).uid);
       }
-    });
+    })
   },
-};
+}
 </script>
 
 <style scoped>

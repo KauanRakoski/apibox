@@ -23,7 +23,7 @@ export default {
   name: "Auth",
   mounted() {
     var uiConfig = {
-      signInSuccessUrl: "/dashboard",
+      signInSuccessUrl: "/subscribe",
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.GithubAuthProvider.PROVIDER_ID,

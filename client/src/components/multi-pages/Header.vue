@@ -28,6 +28,7 @@
         <li class="li" id="li1" @click="logOut">Sign Out</li>
         <li class="li" id="li2" @click="eraseUser">Unsubscribe</li>
         <li class="li" @click="openDocs">Documentation</li>
+        <li class="li" @click="registerApiRoute">Add api route</li>
       </ul>
     </div>
   </header>
@@ -67,6 +68,36 @@ export default {
         menu.style.opacity = 1;
         menu.style.visibility = "visible";
       }
+    },
+    validateUrl(str) {
+      var pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+          "(\\#[-a-z\\d_]*)?$",
+        "i"
+      ); // fragment locator
+      return !!pattern.test(str);
+    },
+    registerApiRoute() {
+      const user = JSON.parse(localStorage.getItem('AuthUser'))
+      swal({
+        text: "Enter a route adress",
+        content: "input",
+        button: {
+          text: "Done",
+          closeModal: true,
+        },
+      }).then((url) => {
+          if(url == null) return
+          if(!this.validateUrl(url)) swal('Oops...', 'Invalid URL. Try again.', 'error')
+        axios.post(
+          "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/register-route",
+          { author: user.uid, route: url }
+        );
+      });
     },
     eraseUser() {
       swal({
@@ -125,7 +156,7 @@ header {
   justify-content: space-around;
 }
 .profile-photo {
-  margin-top: 120px;
+  margin-top: 130px;
   width: 50px;
   height: 50px;
   margin-right: 30px;

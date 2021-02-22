@@ -1,14 +1,11 @@
 <template>
-<perfect-scrollbar ref="scroll">
   <div id="app">
     <transition name="page-transition" 
     enter-active-class="animate__animated animate__fadeInUp"
     >
       <router-view></router-view>
     </transition>
-
   </div>
-</perfect-scrollbar>
 </template>
 
 <script>
@@ -20,31 +17,22 @@ export default {
   watch:{
     $route (){
         window.scrollTo(0,0)
-        this.$refs.scroll.$el.scrollTop = 0
     }
 } 
 }
 </script>
 <style>
-.ps {
-  height: 110vh;
-  overflow-x: hidden;
-}
-html{
-  scrollbar-width: none;
-}
+
+
 * {
   margin: 0;
   box-sizing: border-box;
 }
 body{
     overflow-x: hidden;
-  -ms-overflow-style: none;  
-  scrollbar-width: none;  
-
 }
 #app{
--ms-overflow-style: none;  
+  -ms-overflow-style: none;  
   scrollbar-width: none;  
 }
 .button {

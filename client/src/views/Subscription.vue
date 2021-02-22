@@ -23,7 +23,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import Header from "../components/multi-pages/Header";
 import swal from 'sweetalert'
-
+import utilities from '../helpers/utilities'
+import firebase from 'firebase'
 export default {
   name: "Subscription",
   components: {
@@ -83,13 +84,20 @@ export default {
       }
     },
   },
-  /* beforeMount(){
-    let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
-    let userEmail = userInfo.email;
+  async beforeMount(){
+    var user = firebase.auth().currentUser
+    if(user != undefined && user != null) var userInfo = user
+    else  userInfo = JSON.parse(localStorage.getItem("AuthUser"))
 
-    let subscription = utilities.checkUserSubscription(userEmail).then(sub => {return sub})
-    if(subscription != undefined) this.$router.push('/dashboard') 
-  }, */
+    let userEmail = userInfo.email;
+    utilities.checkUserSubscription(userEmail)
+      .then(async (sub) => {
+          let subscription = await sub 
+        if (subscription != undefined) this.$router.push("/dashboard")
+        else console.log('ㅤㅤㅤㅤㅤWelcome!')
+      })
+      .catch((e) => utilities.showError(e));
+  },
   async mounted() {
     this.stripe = await loadStripe(this.spk);
     this.card = this.stripe.elements().create("card");
