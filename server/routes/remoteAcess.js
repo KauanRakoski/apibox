@@ -2,6 +2,12 @@ const router = require('express').Router()
 const Tasks = require('../models/task')
 const Routes = require('../models/apiRoutes')
 
+router.post('/get-routes', async(req, res) =>{
+    const {author} = req.body
+    const userRoutes = await Routes.find({author: author}) 
+    res.json(userRoutes)
+})
+
 router.post('/register-route', async(req, res) => {
     const {author, route} = req.body
     
