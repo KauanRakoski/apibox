@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Auth from '../views/Auth'
+import Dashboard from '../views/Dashboard'
+import Subscription from '../views/Subscription'
 
 Vue.use(VueRouter)
 
@@ -7,15 +10,16 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
+    component: Dashboard
   },
   {
     path: '/auth',
     name: 'Auth',
-    component: () => import(/* webpackChunkName: "auth" */ '../views/Auth.vue')
+    component: Auth
   },
   {path: '/new', name:'New', component: () => import(/* webpackChunkName: "add" */ '../views/New.vue'), props: true},
-  {path: '/subscribe', name:'Subscription', component: () => import(/* webpackChunkName: "subscription" */ '../views/Subscription.vue')}
+  {path: '/settings', name:'Settings', component: () => import(/* webpackChunkName: "settings" */ '../views/Settings.vue')},
+  {path: '/subscribe', name:'Subscription', Subscription}
 ]
 
 const router = new VueRouter({

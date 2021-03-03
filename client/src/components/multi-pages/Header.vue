@@ -29,6 +29,7 @@
         <li class="li" id="li2" @click="eraseUser">Unsubscribe</li>
         <li class="li" @click="openDocs">Documentation</li>
         <li class="li" @click="registerApiRoute">Add api route</li>
+        <router-link to="/settings" class="li">Settings</router-link>
       </ul>
     </div>
   </header>
@@ -156,10 +157,10 @@ header {
   justify-content: space-around;
 }
 .profile-photo {
-  margin-top: 130px;
+  margin-top: 140px;
   width: 50px;
   height: 50px;
-  margin-right: 30px;
+  margin-right: 20px;
   border-radius: 50%;
   cursor: pointer;
 }

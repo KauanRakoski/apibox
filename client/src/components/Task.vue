@@ -5,13 +5,10 @@
         <button
         type="button"
           @click="copyClipboard"
-          :class="'clipboard' + content._id + ' ' + 'btn btn-outline-primary mb-2'"
-          :data-clipboard-text="content._id"
-          data-toggle="tooltip"
-          data-placement="top"
-          :title="clipboardText"
-        >
-          Copy id
+          :class="'clipboard' + content._id + ' ' + 'button-copy'"
+          :data-clipboard-text="content._id">
+            <img src="https://camo.githubusercontent.com/af31b83340c4b8b34f81244e492e22af2039ec1e761d95040ce21250c0680e35/68747470733a2f2f636c6970626f6172646a732e636f6d2f6173736574732f696d616765732f636c697070792e737667" width="20px" height="20px">
+            <span class="clipboard-text">Copy id</span>
         </button>
         <h2 class="task-title">{{ content.name }}</h2>
         <p>{{ content.description }}</p>
@@ -22,6 +19,7 @@
           v-bind:type="content.key"
           v-bind:taskID="content._id"
           v-bind:action="content.action"
+          @click="copyClipboard()"
         />
       </div>
     </div>
@@ -42,17 +40,17 @@ export default {
   props: {
     content: Object,
   },
-  data(){
-      return{
-          clipboardText: 'Click to copy'
-      }
-  },
   methods: {
     goUp(id) {
       this.$emit("refresh-tasks", id);
     },
     copyClipboard(){
-        this.clipboardText = 'Copied!'
+        var btn = document.querySelector(`.clipboard${this.content._id}`)
+        btn.childNodes[1].innerHTML = "Copied!"
+
+        setTimeout(() => {
+            btn.childNodes[1].innerHTML = "Copy id"
+        }, 2000)
     }
   },
   mounted() {
@@ -62,10 +60,10 @@ export default {
 </script>
 <style scoped>
 .task {
-  background-color: white;
+  background-color: #FFFFFF;
   height: 200px;
   padding: 0 2em;
-  border-radius: 3px;
+  border-radius: 4px;
   box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.3), -3px -3px 14px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
@@ -75,6 +73,31 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.button-copy{
+    background-color: #FAFAFA;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    width: 150px;
+    max-height: 50px;
+    padding: 0.5em 2em;
+    border-radius: 10px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    outline: none;
+}
+.button-copy:hover{
+    background-color: rgba(236, 236, 236, 0.957);
+}
+
+.clipboard-text{
+    transition: all 200ms;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
 }
 .task .content h2 {
   font-family: "Inter", sans-serif;

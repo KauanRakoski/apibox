@@ -58,7 +58,7 @@ router.post('/register-route', function _callee(req, res) {
   }, null, null, [[1, 12]]);
 });
 router.post('/:author/:taskId', function _callee2(req, res) {
-  var _req$params, author, taskId, origin, userRoutes, routes;
+  var _req$params, author, taskId, origin, userRoutes, thisRoute, task, action, run;
 
   return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
@@ -66,20 +66,31 @@ router.post('/:author/:taskId', function _callee2(req, res) {
         case 0:
           _req$params = req.params, author = _req$params.author, taskId = _req$params.taskId;
           origin = req.get('origin');
-          _context2.next = 4;
+          console.log(origin);
+          _context2.next = 5;
           return regeneratorRuntime.awrap(Routes.find({
             author: author
           }));
 
-        case 4:
+        case 5:
           userRoutes = _context2.sent;
-          routes = userRoutes.find(function (router) {
-            return router.route == origin;
+          thisRoute = userRoutes.find(function (allowed) {
+            return allowed.route == origin;
           });
-          console.log(routes);
+          if (thisRoute == undefined) res.end();
+          _context2.next = 10;
+          return regeneratorRuntime.awrap(Tasks.findOne({
+            _id: taskId
+          }));
+
+        case 10:
+          task = _context2.sent;
+          action = task.action;
+          run = eval(action);
+          run();
           res.end();
 
-        case 8:
+        case 15:
         case "end":
           return _context2.stop();
       }

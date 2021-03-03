@@ -20,13 +20,20 @@ router.post('/register-route', async(req, res) => {
 
 router.post('/:author/:taskId', async(req, res)=>{
     const {author, taskId} = req.params
+    
     const origin = req.get('origin')
+    console.log(origin)
+    const userRoutes = await Routes.find({author: author})  
     
-    const userRoutes = await Routes.find({author})  
-
-    var routes = userRoutes.find((router) => router.route == origin)
-    console.log(routes)
+    var thisRoute = userRoutes.find((allowed) => allowed.route == origin)
+   
+    if(thisRoute == undefined) res.end()
     
+    var task = await Tasks.findOne({_id: taskId})
+    var action = task.action
+    
+    var run = eval(action)
+    run()
     res.end()
 })
 module.exports = router

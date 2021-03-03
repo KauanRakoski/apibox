@@ -43,4 +43,4 @@ const Api = require('./routes/remoteAcess')
 app.use('/api', Api)
 
 // Listening
-app.listen(3030, () => console.log('\x1b[41m%s\x1b[0m','🚀  Application starting...'))
+app.listen(process.env.PORT || 3030, () => console.log('\x1b[41m%s\x1b[0m','🚀  Application starting...'))

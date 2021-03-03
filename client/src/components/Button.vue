@@ -4,7 +4,7 @@
       <label class="switch">
         <input
           type="checkbox"
-          :id="taskID"
+          :id="`check${taskID}`"
           @click="runToogleAction(taskID, action)"
           checked
         />
@@ -28,13 +28,14 @@ export default {
   },
   methods: {
     runToogleAction(taskID, action) {
-      var checkbox = document.getElementById(taskID)
+      var checkbox = document.getElementById(`check${taskID}`)
+      console.log(checkbox)
       var run = eval(action)
       run(checkbox.checked)
     },
     runClickAction(action){
         var run = eval(action)
-        run()
+        run(true)
     }
   },
 };
@@ -80,11 +81,11 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #5469d4;
+  background-color: #4460f1;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #5469d4;
+  box-shadow: 0 0 1px #4460f1;
 }
 
 input:checked + .slider:before {
@@ -104,6 +105,6 @@ input:checked + .slider:before {
   width: 60px;
   height: 40px;
   border-bottom: 4px solid #3d50ab;
-  background-color: #5469d4;
+  background-color: #4460f1;
 }
 </style>

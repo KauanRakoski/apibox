@@ -167,6 +167,9 @@ body {
   padding: 0.3em 0.1em;
   border-radius: 3px;
 }
+.prism-editor__textarea{
+   color: white;
+}
 .content {
   display: flex;
   flex-direction: column;
