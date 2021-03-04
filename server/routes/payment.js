@@ -51,11 +51,11 @@ router.post('/sub', async (req, res) => {
     });
 })
 
-router.post('/cancel/:cId/:uid', async(req, res) => {
-  const customerId = req.params.cId
-  const uid = req.params.uid
+router.post('/cancel/', async(req, res) => {
+  const {cid, uid} = req.body
+  
   try{  
-    await stripe.customers.del(customerId)
+    await stripe.customers.del(cid)
     await Tasks.deleteMany({author: uid})
     res.end()
   }

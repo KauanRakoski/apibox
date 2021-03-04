@@ -5,7 +5,8 @@
       <form @submit.prevent="purchase" id="payment-form" class="payment shadow">
         <h3 class="subscribe-text">Subscribe for just $0,50/month</h3>
 
-        <div ref="card" class="form-control"></div>
+        <div ref="card" class="form-control pt-3 px-3 text-center"></div>
+
         <button
           :disabled="lockSubmit"
           class="button big btn-main shadow-sm"
@@ -53,11 +54,9 @@ export default {
       let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
       return userInfo;
     },
-    async purchase(e) {
-      if (e.keyCode == 13) return
-      
+    async purchase() {      
       this.lockSubmit = true
-
+      
       let userInfo = JSON.parse(localStorage.getItem("AuthUser"));
       let userEmail = userInfo.email;
 
@@ -130,9 +129,8 @@ export default {
   justify-content: space-around;
   align-items: center;
 }
-.form-control {
-  padding: 1em;
-  margin: 10px;
+.form-control{
+    min-height: 50px;
 }
 .big {
   width: 365px;

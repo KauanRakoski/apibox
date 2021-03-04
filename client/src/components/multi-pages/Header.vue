@@ -25,10 +25,7 @@
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
-        <li class="li" id="li1" @click="logOut">Sign Out</li>
-        <li class="li" id="li2" @click="eraseUser">Unsubscribe</li>
         <li class="li" @click="openDocs">Documentation</li>
-        <li class="li" @click="registerApiRoute">Add api route</li>
         <router-link to="/settings" class="li">Settings</router-link>
       </ul>
     </div>
@@ -36,9 +33,6 @@
 </template>
 
 <script>
-import firebase from "firebase";
-import axios from "axios";
-import swal from "sweetalert";
 
 export default {
   name: "Header",
@@ -48,17 +42,6 @@ export default {
     cId: String,
   },
   methods: {
-    spinner(id) {
-      let item = document.getElementById(id);
-      item.removeChild(item.childNodes[0]);
-
-      item.innerHTML = `<div class="text-center"><div class="spinner-border text-primary" style="width: 1.2rem; height: 1.2rem;" role="status"></div></div>`;
-    },
-    logOut(param) {
-      if (param) this.spinner("li1");
-      firebase.auth().signOut();
-      localStorage.removeItem("AuthUser");
-    },
     toggleMenu() {
       let menu = document.getElementById("menu");
 
@@ -69,39 +52,6 @@ export default {
         menu.style.opacity = 1;
         menu.style.visibility = "visible";
       }
-    },
-    validateUrl(str) {
-      var pattern = new RegExp(
-        "^(https?:\\/\\/)?" + // protocol
-          "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-          "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-          "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-          "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-          "(\\#[-a-z\\d_]*)?$",
-        "i"
-      ); // fragment locator
-      return !!pattern.test(str);
-    },
-    registerApiRoute() {
-      const user = JSON.parse(localStorage.getItem('AuthUser'))
-      swal({
-        text: "Enter a route adress",
-        content: "input",
-        button: {
-          text: "Done",
-          closeModal: true,
-        },
-      }).then((url) => {
-          if(url == null) return
-          if(!this.validateUrl(url)) swal('Oops...', 'Invalid URL. Try again.', 'error')
-        axios.post(
-          "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/register-route",
-          { author: user.uid, route: url }
-        )
-      })
-    },
-    eraseUser() {
-      
     },
     openDocs() {
       window.open("https://www.github.com/hipesoft/jsint", "_blank");
@@ -139,8 +89,12 @@ header {
   width: 150px;
   justify-content: space-around;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 .profile-photo {
-  margin-top: 140px;
+  margin-top: 83px;
   width: 50px;
   height: 50px;
   margin-right: 20px;

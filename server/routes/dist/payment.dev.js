@@ -97,39 +97,39 @@ router.post('/sub', function _callee3(req, res) {
     }
   });
 });
-router.post('/cancel/:cId/:uid', function _callee4(req, res) {
-  var customerId, uid;
+router.post('/cancel/', function _callee4(req, res) {
+  var _req$body2, cid, uid;
+
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          customerId = req.params.cId;
-          uid = req.params.uid;
-          _context4.prev = 2;
-          _context4.next = 5;
-          return regeneratorRuntime.awrap(stripe.customers.del(customerId));
+          _req$body2 = req.body, cid = _req$body2.cid, uid = _req$body2.uid;
+          _context4.prev = 1;
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(stripe.customers.del(cid));
 
-        case 5:
-          _context4.next = 7;
+        case 4:
+          _context4.next = 6;
           return regeneratorRuntime.awrap(Tasks.deleteMany({
             author: uid
           }));
 
-        case 7:
+        case 6:
           res.end();
-          _context4.next = 13;
+          _context4.next = 12;
           break;
 
-        case 10:
-          _context4.prev = 10;
-          _context4.t0 = _context4["catch"](2);
+        case 9:
+          _context4.prev = 9;
+          _context4.t0 = _context4["catch"](1);
           console.log(_context4.t0);
 
-        case 13:
+        case 12:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[2, 10]]);
+  }, null, null, [[1, 9]]);
 });
 module.exports = router;

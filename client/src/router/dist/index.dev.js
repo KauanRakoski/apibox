@@ -13,8 +13,6 @@ var _Auth = _interopRequireDefault(require("../views/Auth"));
 
 var _Dashboard = _interopRequireDefault(require("../views/Dashboard"));
 
-var _Subscription = _interopRequireDefault(require("../views/Subscription"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -53,7 +51,11 @@ var routes = [{
 }, {
   path: '/subscribe',
   name: 'Subscription',
-  Subscription: _Subscription["default"]
+  component: function component() {
+    return Promise.resolve().then(function () {
+      return _interopRequireWildcard(require('../views/Subscription.vue'));
+    });
+  }
 }];
 var router = new _vueRouter["default"]({
   mode: 'history',

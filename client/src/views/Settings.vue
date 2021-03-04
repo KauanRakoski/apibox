@@ -23,7 +23,7 @@
 
       <div class="routes rounded shadow">
         <h3 class="mb-1">Allowed routes</h3>
-        <span class="mb-4 ml-2 text-muted">These are the routes that are allowed to send requests and run your tasks. 
+        <span class="mb-3 ml-2 text-muted">These are the routes that are allowed to send requests and run your tasks. 
             <span class="add-route" @click="registerApiRoute()">Add a route by clicking here</span>
         </span><br>
 
@@ -43,6 +43,7 @@
         </div>
         
       </div>
+      
     </main>
   </div>
 </template>
@@ -62,6 +63,7 @@ export default {
   data() {
     return {
       usR: null,
+      customerId: ''
     };
   },
   methods: {
@@ -123,7 +125,8 @@ export default {
 
           axios
             .post(
-              `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/cancel/${this.cId}/${userData.uid}`
+              `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/cancel`,
+              {cid: this.customerId, uid: userData.uid}
             )
             .then(this.logOut(false))
         } else return
@@ -141,7 +144,16 @@ export default {
         }).catch(e => utilities.showError(e))
     }
   },
+  
   mounted() {
+      utilities.checkUserSubscription(this.getUser().email)
+      .then(async(sub) => {
+          let subscription = await sub
+        if (subscription == undefined) this.$router.push("/subscribe")
+        else this.customerId = subscription.id
+      })
+      .catch((e) => utilities.showError(e))
+
     axios
       .post(
         "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/get-routes",
