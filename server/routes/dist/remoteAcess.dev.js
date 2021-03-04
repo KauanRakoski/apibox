@@ -120,4 +120,37 @@ router.post('/:author/:taskId', function _callee3(req, res) {
     }
   });
 });
+router.post('/delete-route', function _callee4(req, res) {
+  var id;
+  return regeneratorRuntime.async(function _callee4$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          id = req.body.id;
+          _context4.prev = 1;
+          _context4.next = 4;
+          return regeneratorRuntime.awrap(Routes.deleteOne({
+            _id: id
+          }));
+
+        case 4:
+          res.end();
+          _context4.next = 10;
+          break;
+
+        case 7:
+          _context4.prev = 7;
+          _context4.t0 = _context4["catch"](1);
+          res.send({
+            error: true,
+            message: _context4.t0.message
+          });
+
+        case 10:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, null, null, [[1, 7]]);
+});
 module.exports = router;

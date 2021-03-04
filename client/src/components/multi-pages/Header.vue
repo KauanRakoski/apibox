@@ -98,27 +98,10 @@ export default {
           "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/register-route",
           { author: user.uid, route: url }
         )
-      });
+      })
     },
     eraseUser() {
-      swal({
-        title: "Are you sure?",
-        text: "This action can not be undone. All your data will be deleted.",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.spinner("li2");
-          let userData = JSON.parse(localStorage.getItem("AuthUser"));
-
-          axios
-            .post(
-              `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/cancel/${this.cId}/${userData.uid}`
-            )
-            .then(this.logOut(false));
-        } else return;
-      });
+      
     },
     openDocs() {
       window.open("https://www.github.com/hipesoft/jsint", "_blank");

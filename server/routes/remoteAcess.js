@@ -42,4 +42,16 @@ router.post('/:author/:taskId', async(req, res)=>{
     run()
     res.end()
 })
+
+router.post('/delete-route', async(req, res)=>{
+    const {id} = req.body
+
+    try{
+        await Routes.deleteOne({_id: id})
+        res.end()
+    }
+    catch(e){
+        res.send({error:true, message: e.message})
+    }
+})
 module.exports = router
