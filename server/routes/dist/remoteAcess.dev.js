@@ -6,6 +6,13 @@ var Tasks = require('../models/task');
 
 var Routes = require('../models/apiRoutes');
 
+var _require = require('vm2'),
+    NodeVM = _require.NodeVM; // User libraries
+
+
+var axios = require('axios'); // Get user routes by author id
+
+
 router.post('/get-routes', function _callee(req, res) {
   var author, userRoutes;
   return regeneratorRuntime.async(function _callee$(_context) {
@@ -28,7 +35,8 @@ router.post('/get-routes', function _callee(req, res) {
       }
     }
   });
-});
+}); // Register a router, with author id
+
 router.post('/register-route', function _callee2(req, res) {
   var _req$body, author, route, created, thisRoute;
 
@@ -79,41 +87,55 @@ router.post('/register-route', function _callee2(req, res) {
       }
     }
   }, null, null, [[1, 12]]);
-});
+}); // Run a task
+
 router.post('/:author/:taskId', function _callee3(req, res) {
-  var _req$params, author, taskId, origin, userRoutes, thisRoute, task, action, run;
+  var _req$params, author, taskId, origin, userRoutes, thisRoute, task, action, vm;
 
   return regeneratorRuntime.async(function _callee3$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _req$params = req.params, author = _req$params.author, taskId = _req$params.taskId;
+          _req$params = req.params, author = _req$params.author, taskId = _req$params.taskId; // Check if origin is in allowed routes
+          // If it is not, end request
+
           origin = req.get('origin');
-          console.log(origin);
-          _context3.next = 5;
+          _context3.next = 4;
           return regeneratorRuntime.awrap(Routes.find({
             author: author
           }));
 
-        case 5:
+        case 4:
           userRoutes = _context3.sent;
           thisRoute = userRoutes.find(function (allowed) {
             return allowed.route == origin;
           });
-          if (thisRoute == undefined) res.end();
-          _context3.next = 10;
+          if (thisRoute == undefined) res.end(); // If route is available, search for task using id
+          // Extract the action from the task
+
+          _context3.next = 9;
           return regeneratorRuntime.awrap(Tasks.findOne({
             _id: taskId
           }));
 
-        case 10:
+        case 9:
           task = _context3.sent;
-          action = task.action;
-          run = eval(action);
-          run();
+          action = task.action; // Create a vm instance to run the code in a safer way
+
+          vm = new NodeVM({
+            console: 'off',
+            sandbox: {
+              res: res,
+              axios: axios
+            },
+            require: {
+              external: true
+            }
+          });
+          vm.run("".concat(action));
           res.end();
 
-        case 15:
+        case 14:
         case "end":
           return _context3.stop();
       }
