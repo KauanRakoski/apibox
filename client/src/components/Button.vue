@@ -28,14 +28,19 @@ export default {
   },
   methods: {
     runToogleAction(taskID, action) {
-      var checkbox = document.getElementById(`check${taskID}`)
-      console.log(checkbox)
-      var run = eval(action)
-      run(checkbox.checked)
+        try{
+            var checkbox = document.getElementById(`check${taskID}`)
+            
+            var run = eval(`(i, inBrowser) => {${action}}`)
+            run(checkbox.checked, true)
+        }catch(e){console.warn("An error ocurred: " + e.message)}
+ 
     },
     runClickAction(action){
-        var run = eval(action)
-        run(true)
+        try{
+            var run = eval(`(i, inBrowser) => {${action}}`)
+            run(true, true)
+        }catch(e){console.warn("An error ocurred: " + e.message)}        
     }
   },
 };
