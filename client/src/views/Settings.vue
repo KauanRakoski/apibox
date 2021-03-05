@@ -168,12 +168,12 @@ export default {
 
 <style scoped>
 main {
-  margin-top: 50px;  
+  margin-top: 150px;  
   min-height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  
 }
 .basic-info {
   display: flex;
@@ -219,5 +219,20 @@ main {
 .route-container {
   display: flex;
   align-items: center;
+}
+@media only screen and (max-width: 600px){
+    main{
+        margin-top: 60px;
+    }
+    .basic-info{
+        padding: 1em;
+        width: 360px;
+    }
+    img{
+        display: none;
+    }
+    .routes{
+        width: 360px;
+    }
 }
 </style>

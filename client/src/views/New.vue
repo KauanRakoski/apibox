@@ -40,9 +40,11 @@
           <label for="code">Action:</label>
 
           <prism-editor
-            class="editor"
+            class="my-editor text-white"
             v-model="code"
             :highlight="highlighter"
+            autocomplete="on"
+            autocorrect="on"
             line-numbers
           ></prism-editor>
         </div>
@@ -65,13 +67,14 @@ import swal from 'sweetalert'
 import utilities from "../helpers/utilities";
 import firebase from 'firebase';
 
-import { PrismEditor } from "vue-prism-editor";
-import "vue-prism-editor/dist/prismeditor.min.css";
+ import { PrismEditor } from 'vue-prism-editor';
+  import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
 
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism-tomorrow.css";
+  // import highlighting library (you can use any library you want just return html string)
+  import { highlight, languages } from 'prismjs/components/prism-core';
+  import 'prismjs/components/prism-clike';
+  import 'prismjs/components/prism-javascript';
+  import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
 
 export default {
   name: "New",
@@ -144,6 +147,7 @@ export default {
       .catch(e => utilities.showError(e))
   },
   mounted() {
+      
       if (this.$route.params.task != undefined) {
       document.getElementById("name").value = this.$route.params.task.name;
       document.getElementById(
@@ -161,14 +165,13 @@ export default {
 body {
   overflow-x: hidden;
 }
-.editor {
-  background-color: #282a36;
-  color: #f8f8f2;
-  padding: 0.3em 0.1em;
-  border-radius: 3px;
-}
-.prism-editor__textarea{
-   color: white;
+
+.my-editor {
+  background: #44475a;
+  color: #fff;
+  cursor: text;
+  padding: 1em;
+  border-radius: 6px;
 }
 .content {
   display: flex;
