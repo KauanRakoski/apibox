@@ -48,7 +48,11 @@ app.use('/payment', Payment);
 
 var Api = require('./routes/remoteAcess');
 
-app.use('/api', Api); // Listening
+app.use('/api', Api);
+
+var User = require('./routes/user-data');
+
+app.use('/user', User); // Listening
 
 app.listen(process.env.PORT || 3030, function () {
   return console.log('\x1b[41m%s\x1b[0m', '🚀  Application starting...');

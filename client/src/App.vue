@@ -46,6 +46,12 @@ body{
 .btn-main {
   color: white;
   background-color: #5469d4;
+  text-decoration: none;
+}
+.btn-main:hover{
+    text-decoration: none;
+    color: white;
+    background-color: #465cc8;
 }
 .btn-second {
   color: #5469d4;

@@ -1,6 +1,6 @@
 <template>
   <header :class="mode == 'blue' ? 'blue' : 'white shadow'">
-    <div class="logo">
+    <router-link to="/dashboard" class="logo">
       <img
         v-if="mode == 'blue'"
         src="../../assets/jsint-cube-white.svg"
@@ -20,7 +20,7 @@
       >
         jsint
       </h2>
-    </div>
+    </router-link>
 
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />

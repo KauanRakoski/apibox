@@ -12,7 +12,7 @@
 
         <div>
           <h3>{{ getUser().displayName }}</h3>
-          <p><span>id:</span>{{ getUser().uid }}</p>
+          <p><span>id: </span>{{ getUser().uid }}</p>
 
           <div>
               <button class="button btn-main ml-3" @click="logOut(true)">Sign Out</button>
@@ -28,12 +28,12 @@
         </span><br>
 
         
-        <a class="btn btn-primary mb-1 ml-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <a class="btn btn-main mb-1 ml-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             Show routes
         </a>    
 
         <div class="collapse mt-2" id="collapseExample">
-            <div class="card card-body mb-2 d-flex flex-row justify-content-between" v-for="router in usR" :key="router">
+            <div class="card card-body mb-2 d-flex flex-row justify-content-between align-items-center" v-for="router in usR" :key="router">
                 {{ router.route }}
                 
                 <button @click="deleteRoute(router._id)" class="btn btn-danger">
@@ -133,10 +133,10 @@ export default {
       })
     },
     deleteRoute(id){
-        axios.post('https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/delete-route', {id: id})
+        axios.post('https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/del-route', {id: id})
         .then((res) => {
             if(!res.error){
-                axios.post("https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/get-routes",
+                axios.post("https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
                     { author: this.getUser().uid }
                 )
                 .then((routes) => {this.usR = routes.data})
@@ -156,7 +156,7 @@ export default {
 
     axios
       .post(
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/get-routes",
+        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
         { author: this.getUser().uid }
       )
       .then((routes) => {
