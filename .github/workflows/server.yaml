@@ -14,7 +14,7 @@ jobs:
 
       # Runs the Super-Linter action
       - name: Pushes to host repo
-        uses: cpina/github-action-push-to-another-repository@master
+        uses: cpina/github-action-push-to-another-repository@cp_instead_of_deleting
         env:
           DEFAULT_BRANCH: master
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
