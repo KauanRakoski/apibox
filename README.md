@@ -49,4 +49,4 @@ In addition, you can use different types of **triggers**, that is, different way
 
 Consider forking and making a pull request, or opening an issue. 😉
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/CosmicBeings/Sorter)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/kauanrakoski/jsint)
