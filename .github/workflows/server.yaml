@@ -1,0 +1,25 @@
+name: Push-to-Repo
+
+on: push
+
+jobs:
+ 
+  push-to-repo:
+    name: push-to-repo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Runs the Super-Linter action
+      - name: Pushes to host repo
+        uses: cpina/github-action-push-to-another-repository@master
+        env:
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
+        with:
+          source-directory: 'server'
+          destination-github-username: 'kauanrakoski'
+          destination-repository-name: 'jsint-backend'
+          user-email: kauan.k.rakoski@gmail.com
