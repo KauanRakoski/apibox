@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express()
 const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
+const helmet = require('helmet')
 
 /* // Enabling cors
 var corsOptions = {
@@ -11,6 +12,7 @@ var corsOptions = {
 } */
 
 app.use(cors())
+app.use(helmet())
 
 // Body-parser
 app.use(express.urlencoded({extended: false}));

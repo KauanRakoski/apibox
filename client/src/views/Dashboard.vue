@@ -39,6 +39,7 @@
 import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
 import Task from "../components/Task";
+import axios from 'axios'
 import utilities from "../helpers/utilities";
 
 export default {
@@ -107,6 +108,7 @@ export default {
     })
   },
   async mounted() {
+    axios.post(`https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/create`, {uid: 'Q3Nw4xCrvrd3qwOLEAtqRiFDV8T2'})
     var fetchFunc = this.fetchUserData;
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {

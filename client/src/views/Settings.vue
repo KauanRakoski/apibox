@@ -2,7 +2,7 @@
   <div>
     <Header mode="white" :img="getUser().photoURL" />
     <main>
-      <div class="basic-info">
+      <div class="basic-info shadow">
         <img
           :src="getUser().photoURL"
           class="rounded"
@@ -33,10 +33,9 @@
         </a>    
 
         <div class="collapse mt-2" id="collapseExample">
-            <div class="card card-body mb-2 d-flex flex-row justify-content-between align-items-center" v-for="router in usR" :key="router">
-                {{ router.route }}
-                
-                <button @click="deleteRoute(router._id)" class="btn btn-danger">
+            <div class="card card-body mb-2 d-flex flex-row justify-content-between align-items-center" v-for="r in usR" :key="r">
+                {{ r }}                
+                <button @click="deleteRoute(r)" class="btn btn-danger">
                     Delete
                 </button>
             </div>
@@ -99,10 +98,10 @@ export default {
         },
       }).then((url) => {
           if(url == null) return
-          if(!this.validateUrl(url)) swal('Oops...', 'Invalid URL. Try again.', 'error')
+          if(!this.validateUrl(url)) {swal('Oops...', 'Invalid URL. Try again.', 'error'); return}
         axios.post(
-          "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/api/register-route",
-          { author: user.uid, route: url }
+          "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/route",
+          { uid: user.uid, route: url }
         )
       })
     },
@@ -132,12 +131,15 @@ export default {
         } else return
       })
     },
-    deleteRoute(id){
-        axios.post('https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/del-route', {id: id})
+    deleteRoute(route){
+        const user = JSON.parse(localStorage.getItem('AuthUser'))
+        var index = this.usR.indexOf(route)
+        
+        axios.post('https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/del-route', { uid: user.uid, index})
         .then((res) => {
             if(!res.error){
                 axios.post("https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
-                    { author: this.getUser().uid }
+                    { uid: user.uid }
                 )
                 .then((routes) => {this.usR = routes.data})
             }
@@ -157,7 +159,7 @@ export default {
     axios
       .post(
         "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
-        { author: this.getUser().uid }
+        { uid: this.getUser().uid }
       )
       .then((routes) => {
         this.usR = routes.data
@@ -179,7 +181,6 @@ main {
   display: flex;
   border-radius: 10px;
   background-color: #ffffff;
-  box-shadow: 2px 2px 4px rgb(164, 164, 164);
   width: 500px;
 }
 .basic-info h3 {
@@ -195,7 +196,7 @@ main {
   font-weight: 500;
 }
 .routes {
-  margin-top: 20px;
+  margin: 20px 0;
   display: flex;
   flex-direction: column;
   width: 500px;

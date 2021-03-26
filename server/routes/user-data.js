@@ -6,7 +6,15 @@ router.post('/create', async(req, res) => {
     const {uid} = req.body
 
     try{
-        User.create({uid})
+        let user = await User.findOne({uid})
+
+        if(!user){
+            User.create({uid})
+            res.end()
+        }
+        else{
+            res.end()
+        }
     }catch(e){
         res.send({error: true})
     }
@@ -16,7 +24,7 @@ router.post('/secret', async(req, res) => {
 
     try{
         secret = {name: name, key: encrypt(key)}
-        user = User.find({uid})
+        user = await User.find({uid})
         user.secrets.push(secret)
         user.save()
 
@@ -27,20 +35,29 @@ router.post('/secret', async(req, res) => {
 })
 
 router.post('/routes', async(req, res) =>{
-    const {author} = req.body
-    const userRoutes = await Routes.find({author: author}) 
-    res.json(userRoutes)
+    try{
+        const {uid} = req.body
+        const user = await User.findOne({uid}) 
+        res.json(user.routes)
+    }catch(e){
+        res.json({error: true})
+    }
+    
 })
 
 // Register a router, with author id
 router.post('/route', async(req, res) => {
-    const {author, route} = req.body
+    const {uid, route} = req.body
     
     try{
-        const created = await Routes.find({author})
-        const thisRoute = created.find((r) => r.route == route)
+        var user = await User.findOne({uid: uid})
+        const thisRoute = user.routes.find((r) => r == route)
         
-        if(thisRoute == undefined) await Routes.create({author, route})
+        if(thisRoute == undefined){
+            user.routes.push(route)
+            await user.save()
+        } 
+        
         res.end()
     }
     catch(e){
@@ -50,13 +67,17 @@ router.post('/route', async(req, res) => {
 })
 
 router.post('/del-route', async(req, res)=>{
-    const {id} = req.body
+    const {uid, index} = req.body
 
     try{
-        await Routes.deleteOne({_id: id})
+       let user = await User.findOne({uid: uid})
+       user.routes.splice(index, 1)
+
+        await user.save()
         res.end()
     }
     catch(e){
+        console.log(e)
         res.send({error:true, message: e.message})
     }
 })

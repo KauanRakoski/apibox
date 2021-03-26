@@ -9,10 +9,12 @@ const User = {
     routes: {
         type: Array,
         required: false,
+        initial: []
     },
     secrets: {
         type: Array,
-        required: false
+        required: false,
+        initial: []
     }
 }
 
