@@ -12,6 +12,7 @@ var corsOptions = {
 } */
 
 app.use(cors())
+app.use('/api', cors())
 app.use(helmet())
 
 // Body-parser
@@ -48,4 +49,4 @@ const User = require('./routes/user-data')
 app.use('/user', User)
 
 // Listening
-app.listen(process.env.PORT || 3030, () => console.log('\x1b[41m%s\x1b[0m','🚀  Application starting...'))
+app.listen(process.env.PORT || 3030, () => console.log('🚀  Application starting...'))

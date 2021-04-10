@@ -152,8 +152,9 @@ export default {
   margin-top: 15px;
 }
 .add-btn {
-  margin-top: 20px;
+  margin: 10px 0 25px 0;
   cursor: pointer;
+  outline: none;
   border-radius: 40px;
   padding: 0.9em 1.2em;
   background-color: #ffffff;
@@ -164,6 +165,12 @@ export default {
   text-decoration: none;
   font-weight: 400;
   font-family: "Inter", sans-serif;
+  transition: all 250ms ease-out;
+}
+.add-btn:hover{
+    color:  #5844f1;
+    border: 2px solid #5844f1;
+    box-shadow: 2px 2px 4px rgba(108, 108, 108, .5);
 }
 h1 {
   font-weight: 400;
@@ -191,8 +198,9 @@ h2 {
 }
 
 .task-container {
+ position: relative;
   margin-bottom: 1em;
-  z-index: 99;
+  z-index: 1;
 }
 
 @media only screen and (max-width: 800px) {

@@ -42,8 +42,7 @@ In addition, you can use different types of **triggers**, that is, different way
 #### Libraries
 
 - Axios
-- Request
-- Res (express response)
+- SweetAlert
 
 ### 🤝 Contributing
 

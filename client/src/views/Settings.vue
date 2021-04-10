@@ -12,11 +12,10 @@
 
         <div>
           <h3>{{ getUser().displayName }}</h3>
-          <p><span>id: </span>{{ getUser().uid }}</p>
-
+          
           <div>
-              <button class="button btn-main ml-3" @click="logOut(true)">Sign Out</button>
-              <button @click="deleteCustomer()" class="button btn-second ml-2">Unsubscribe</button>
+              <button class="button btn-main ml-3" id="li1" @click="logOut(true)">Sign Out</button>
+              <button @click="deleteCustomer()" id="li2" class="button btn-second ml-2">Unsubscribe</button>
           </div>
         </div>
       </div>
@@ -185,12 +184,7 @@ main {
 }
 .basic-info h3 {
   font-family: "Inter", sans-serif;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-.basic-info p {
-  margin-left: 15px;
-  font-family: "Inter", sans-serif;
+  margin: 10px 0 20px 15px;
 }
 .basic-info p span {
   font-weight: 500;

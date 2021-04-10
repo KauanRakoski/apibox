@@ -9,6 +9,7 @@
     <ul class="options" v-bind:id="task._id">
       <li @click="editTask"><a>Edit</a></li>
       <li @click="deleteTaskRequest"><a>Delete</a></li>
+      <li @click="runOnServer(task._id)"><a>Server</a></li>
     </ul>
   </div>
 </template>
@@ -19,8 +20,8 @@ export default {
   name: "TaskOptions",
   data() {
     return {
-      BaseDelUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/",
+      serverUrl:
+        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io",
     };
   },
   props: {
@@ -55,12 +56,25 @@ export default {
         } else return;
       });
     },
+    runOnServer(id){
+        fetch(`${this.serverUrl}/api/${id}`, {method: "POST"})
+        .then(async (res) => {
+            if(res.error){
+            swal("Something went wrong", "An error occured", "error")
+        }else return res.json()})
+        .then(r => {
+            swal("Task ran succesfuly", `${r ? `response: ${JSON.stringify(r)}` : ''}`, "success")
+        })
+        .catch(e => {swal("Something went wrong", "An error occured", "error"); console.log(e)})
+    }
   },
 };
 </script>
 
 <style scoped>
 .dot-container {
+    position: relative;
+    z-index: 99;
   margin: 10px 0 8px 49px;
   height: 21px;
   display: flex;
@@ -87,6 +101,8 @@ export default {
 }
 .options {
   position: relative;
+  min-width: 110px;
+  z-index: 99;
   margin: 15px -40px 0 40px;
   opacity: 0;
   list-style: none;
@@ -100,6 +116,8 @@ export default {
   background-color: #fff;
 }
 .options li {
+    position: relative;
+ z-index: 99;
   padding: 0.3em 1.2em;
   width: 100%;
   border-radius: 3px;

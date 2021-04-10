@@ -38,15 +38,7 @@
 
         <div class="i-group">
           <label for="code">Action:</label>
-
-          <prism-editor
-            class="my-editor text-white"
-            v-model="code"
-            :highlight="highlighter"
-            autocomplete="on"
-            autocorrect="on"
-            line-numbers
-          ></prism-editor>
+          <runkit :source="code" ref="runkit"  node-version="14.16.0" class="code"/>
         </div>
 
         <button v-if="$route.params.task" type="submit" class="button btn-main">
@@ -63,37 +55,25 @@
 <script>
 import Header from "../components/multi-pages/Header";
 import axios from "axios";
-import swal from 'sweetalert'
+/* import swal from 'sweetalert' */
 import utilities from "../helpers/utilities";
 import firebase from 'firebase';
-
- import { PrismEditor } from 'vue-prism-editor';
-  import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
-
-  // import highlighting library (you can use any library you want just return html string)
-  import { highlight, languages } from 'prismjs/components/prism-core';
-  import 'prismjs/components/prism-clike';
-  import 'prismjs/components/prism-javascript';
-  import 'prismjs/themes/prism-tomorrow.css'; // import syntax highlighting styles
+import runkit from 'vue-runkit';
+ 
 
 export default {
   name: "New",
   components: {
     Header,
-    PrismEditor,
+    runkit
   },
   data() {
     return {
       postRoute: "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io",
-      code: `(i) => {
-
-}`,
+      code: 'console.log("Hello World")',
     };
   },
   methods: {
-    highlighter(code) {
-      return highlight(code, languages.js); 
-    },
     getUser() {
       let userInfo = localStorage.getItem("AuthUser");
       let jsonInfo = JSON.parse(userInfo);
@@ -101,10 +81,10 @@ export default {
       return jsonInfo;
     },
     async submit() {
-      if(this.code == ''){
-        swal("Oh, oh...", "Make sure to fill all fields", "warning")
-        return
-      }
+    let notebook = this.$refs.runkit.notebook
+    let src = notebook.getSource()
+    console.log(src._rejectionHandler0)
+
       let name = document.getElementById("name").value;
       let description = document.getElementById("description").value;
       let key = document.getElementById("key").value;
@@ -155,8 +135,10 @@ export default {
       ).value = this.$route.params.task.description;
       document.getElementById("key").value = this.$route.params.task.key;
 
-      this.code = this.$route.params.task.action;
+      this.$refs.runkit.notebook.setSource(this.$route.params.task.action)
     }
+
+    
   },
 };
 </script>
@@ -166,12 +148,8 @@ body {
   overflow-x: hidden;
 }
 
-.my-editor {
-  background: #44475a;
-  color: #fff;
-  cursor: text;
-  padding: 1em;
-  border-radius: 6px;
+.code {
+  width: 380px;
 }
 .content {
   display: flex;
