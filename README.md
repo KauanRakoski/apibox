@@ -41,7 +41,8 @@ In addition, you can use different types of **triggers**, that is, different way
 
 #### Libraries
 
-- Axios
+- Node libraries (when not running on browser)
+- Utilities (jsint shortcut library)
 - SweetAlert
 
 ### 🤝 Contributing
