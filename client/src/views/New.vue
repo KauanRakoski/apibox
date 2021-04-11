@@ -81,51 +81,49 @@ export default {
       return jsonInfo;
     },
     async submit() {
-    let notebook = this.$refs.runkit.notebook
-    let src = notebook.getSource()
-    console.log(src._rejectionHandler0)
+        var notebook = this.$refs.runkit.notebook.getSource()
+        var r = notebook._rejectionHandler0
 
-      let name = document.getElementById("name").value;
-      let description = document.getElementById("description").value;
-      let key = document.getElementById("key").value;
-      
-      try {
-        if (!this.$route.params.task) {
-          await axios.post(`${this.postRoute}/add/${this.getUser().uid}`, {
-            name: name,
-            key: key,
-            description: description,
-            code: this.code
-          });
-        } else {
-          await axios.post(
-            `${this.postRoute}/edit/${this.$route.params.task._id}`,
-            { name: name,
-            key: key,
-            description: description,
-            code: this.code }
-          );
+        let name = document.getElementById("name").value;
+        let description = document.getElementById("description").value;
+        let key = document.getElementById("key").value;
+        
+        try {
+            if (!this.$route.params.task) {
+            await axios.post(`${this.postRoute}/add/${this.getUser().uid}`, {
+                name: name,
+                key: key,
+                description: description,
+                code: r
+            });
+            console.log("hello")
+            } else {
+            await axios.post(
+                `${this.postRoute}/edit/${this.$route.params.task._id}`,
+                { name: name, key: key, description: description, code: r }
+            );
+            console.log("hello")
+            }
+        }catch(e){
+            utilities.showError(e)
         }
-      }catch(e){
-        utilities.showError(e)
-      }
 
-      this.$router.push("/dashboard");
+        this.$router.push("/dashboard");
     },
-  },
-  beforeMount(){
-    if(firebase.auth().currentUser == null || firebase.auth().currentUser == undefined){
-      let userInfo = localStorage.getItem("AuthUser")
-      var jsonInfo = JSON.parse(userInfo)
-    } else jsonInfo = firebase.auth().currentUser
-    
-    utilities.checkUserSubscription(jsonInfo.email)
-    .then(subscription => {
-      if(subscription == undefined) this.$router.push('/subscribe')
-      this.costumerId = subscription.id
-      })
-      .catch(e => utilities.showError(e))
-  },
+    },
+    beforeMount(){
+        if(firebase.auth().currentUser == null || firebase.auth().currentUser == undefined){
+        let userInfo = localStorage.getItem("AuthUser")
+        var jsonInfo = JSON.parse(userInfo)
+        } else jsonInfo = firebase.auth().currentUser
+        
+        utilities.checkUserSubscription(jsonInfo.email)
+        .then(subscription => {
+        if(subscription == undefined) this.$router.push('/subscribe')
+        this.costumerId = subscription.id
+        })
+        .catch(e => utilities.showError(e))
+    },
   mounted() {
       
       if (this.$route.params.task != undefined) {
@@ -135,6 +133,7 @@ export default {
       ).value = this.$route.params.task.description;
       document.getElementById("key").value = this.$route.params.task.key;
 
+      this.code = this.$route.params.task.action
       this.$refs.runkit.notebook.setSource(this.$route.params.task.action)
     }
 

@@ -7,9 +7,10 @@
     </div>
 
     <ul class="options" v-bind:id="task._id">
-      <li @click="editTask"><a>Edit</a></li>
-      <li @click="deleteTaskRequest"><a>Delete</a></li>
-      <li @click="runOnServer(task._id)"><a>Server</a></li>
+      <li @click="editTask"><a><span>✏️</span> Edit</a></li>
+      <li @click="deleteTaskRequest"><a><span>🗑️</span> Delete</a></li>
+      <li @click="runOnServer(task._id)"><a><span>💻</span> Server</a></li>
+      <li @click="runOnServer(task._id)"><a><img width="16px" src="../assets/share-option.svg"> Share</a></li>
     </ul>
   </div>
 </template>
@@ -58,7 +59,7 @@ export default {
     },
     runOnServer(id){
         fetch(`${this.serverUrl}/api/${id}`, {method: "POST"})
-        .then(async (res) => {
+        .then((res) => {
             if(res.error){
             swal("Something went wrong", "An error occured", "error")
         }else return res.json()})
@@ -101,13 +102,13 @@ export default {
 }
 .options {
   position: relative;
-  min-width: 110px;
+  min-width: 140px;
   z-index: 99;
-  margin: 15px -40px 0 40px;
+  margin: 45px -40px -20px 40px;
   opacity: 0;
   list-style: none;
   padding: 0.01em;
-  border-radius: 8px;
+  border-radius: 3px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -116,8 +117,10 @@ export default {
   background-color: #fff;
 }
 .options li {
-    position: relative;
- z-index: 99;
+  position: relative;
+  z-index: 99;
+  display: flex;
+  justify-content: flex-start;
   padding: 0.3em 1.2em;
   width: 100%;
   border-radius: 3px;

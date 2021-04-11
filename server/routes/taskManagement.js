@@ -5,12 +5,11 @@ const router = express.Router()
 
 router.post('/add/:uid/', async (req, res) => {
     var uid = req.params.uid
-    var {
-        name,
+    var {name, description, key, code} = req.body
+    console.log(name,
         description,
         key,
-        code
-    } = req.body
+        code, uid)
     
     try {
         await Tasks.create({
@@ -20,7 +19,7 @@ router.post('/add/:uid/', async (req, res) => {
             key: key,
             action: code
         })
-
+        console.log("ok")
         res.end()
     } catch (e) {
         res.send({error: true})

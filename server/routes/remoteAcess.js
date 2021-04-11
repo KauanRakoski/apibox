@@ -7,8 +7,8 @@ const {NodeVM} = require('vm2')
 const axios = require('axios')
 
 // Run a task
-router.post('/:tid', async (req, res) => {
-    const {tid} = req.params
+router.post('/:tid/:params', async (req, res) => {
+    const {tid, params} = req.params
 
     var task = await Tasks.findOne({
             _id: tid
@@ -36,7 +36,11 @@ router.post('/:tid', async (req, res) => {
         
         // Create a vm instance to run the code in a safer way
         // Also, pass some variables and libraries
-        const inBrowser = false
+        let response = await axios.post('https://untitled-944nr2clqwgw.runkit.sh/run',
+            {action: action, params: params ? params : {}}
+        )
+        console.log(response)
+        /* const inBrowser = false
 
         const vm = new NodeVM({
             console: 'inherit',
@@ -49,7 +53,7 @@ router.post('/:tid', async (req, res) => {
 
         const r = vm.run(`${action}`)
         console.log(r)
-        res.json(r)
+        res.json(r) */
     }catch(e){
         // res.send({error: true})
         console.log(e)
