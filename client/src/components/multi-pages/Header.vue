@@ -25,8 +25,8 @@
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
-        <li class="li" @click="openDocs">Documentation</li>
-        <router-link to="/settings" class="li">Settings</router-link>
+        <li class="li" @click="openDocs">📚 Docs</li>
+        <router-link to="/settings" class="li">⚙️ Settings</router-link>
       </ul>
     </div>
   </header>
@@ -126,7 +126,7 @@ a{
   border-bottom: 10px solid #fff;
 }
 #menu {
-  width: 120px;
+  width: 140px;
   box-sizing: border-box;
   opacity: 0;
   visibility: hidden;
@@ -135,7 +135,7 @@ a{
   border-bottom: 1px solid rgb(180, 180, 180);
   margin: 15px -50px 0 -70px;
   background-color: #ffffff;
-  border-radius: 4px;
+  border-radius: 3px;
   list-style: none;
   transition: opacity 350ms ease-in-out;
   display: flex;
