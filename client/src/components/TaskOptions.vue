@@ -10,7 +10,7 @@
       <li @click="editTask"><a><span>✏️</span> Edit</a></li>
       <li @click="deleteTaskRequest"><a><span>🗑️</span> Delete</a></li>
       <li @click="runOnServer(task._id)"><a><span>💻</span> Server</a></li>
-      <li @click="runOnServer(task._id)"><a><img width="16px" src="../assets/share-option.svg"> Share</a></li>
+      <li @click="qrCode(task._id)"><a><img width="16px" src="../assets/share-option.svg"> Share</a></li>
     </ul>
   </div>
 </template>

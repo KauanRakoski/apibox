@@ -81,9 +81,11 @@ export default {
       return jsonInfo;
     },
     async submit() {
-        var notebook = this.$refs.runkit.notebook.getSource()
-        var r = notebook._rejectionHandler0
-
+        var notebook = this.$refs.runkit.notebook
+        const src = notebook.getSource()
+        console.log(src)
+        var r = src._rejectionHandler0
+        console.log(r)
         let name = document.getElementById("name").value;
         let description = document.getElementById("description").value;
         let key = document.getElementById("key").value;
@@ -94,13 +96,13 @@ export default {
                 name: name,
                 key: key,
                 description: description,
-                code: r
+                action: r
             });
             console.log("hello")
             } else {
             await axios.post(
                 `${this.postRoute}/edit/${this.$route.params.task._id}`,
-                { name: name, key: key, description: description, code: r }
+                { name: name, key: key, description: description, action: r }
             );
             console.log("hello")
             }
