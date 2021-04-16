@@ -3,7 +3,8 @@
     <transition name="page-transition" 
     enter-active-class="animate__animated animate__fadeInUp"
     >
-      <router-view></router-view>
+      <router-view>
+      </router-view>
     </transition>
   </div>
 </template>
@@ -22,7 +23,7 @@ export default {
 }
 </script>
 <style>
-
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
 
 * {
   margin: 0;
@@ -60,4 +61,5 @@ body{
 .btn-second:hover {
   background-color: rgb(193, 209, 233);
 }
+
 </style>

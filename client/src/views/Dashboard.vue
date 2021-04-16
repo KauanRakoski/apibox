@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div class="popup">
+        <div class="popup-header">
+            <h2>Scan it:</h2>
+            <i class="fi-sr-cross-circle"></i>
+        </div>
+        <div class="qrcode">
+            <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + baseUrl + '/60781486b21a7310d38e6e52'">
+        </div>
+    </div>
+
     <Header v-bind:img="getUser().photoURL" :mode="'blue'" :cId="costumerId" />
     <div class="hello">
       <h1 v-if="getUser() != null">
@@ -201,6 +211,43 @@ h2 {
  position: relative;
   margin-bottom: 1em;
   z-index: 1;
+}
+.popup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  border-radius: 3px;
+  z-index: 99;
+  background-color: #fff;
+  box-shadow: 2px 2px 4px rgb(30, 30, 30, .3), -2px -2px 5px rgb(30, 30, 30, .3);
+}
+.popup-header{
+    padding: 0 0.7em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid gray;
+}
+.popup-header h2{
+    margin-top: 3px;
+    font-family: "Inter", sans-serif;
+    color: black;
+    font-weight: bold;
+}
+.fi-sr-cross-circle{
+    cursor: pointer;
+}
+.qrcode{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 84%;
+    
 }
 
 @media only screen and (max-width: 800px) {

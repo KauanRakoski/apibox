@@ -1,16 +1,14 @@
 <template>
   <div>
     <div @click="toogleOptions(task._id)" class="dot-container">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
+      <i class="fi-sr-menu-dots-vertical"></i>
     </div>
 
     <ul class="options" v-bind:id="task._id">
       <li @click="editTask"><a><span>✏️</span> Edit</a></li>
       <li @click="deleteTaskRequest"><a><span>🗑️</span> Delete</a></li>
       <li @click="runOnServer(task._id)"><a><span>💻</span> Server</a></li>
-      <li @click="qrCode(task._id)"><a><img width="16px" src="../assets/share-option.svg"> Share</a></li>
+      <li @click="qrCode(task._id)"><a><i class="fi-sr-redo"></i> Share</a></li>
     </ul>
   </div>
 </template>
@@ -21,8 +19,7 @@ export default {
   name: "TaskOptions",
   data() {
     return {
-      serverUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io",
+      serverUrl: `${process.env.VUE_APP_DOMAIN}`,
     };
   },
   props: {
@@ -73,21 +70,17 @@ export default {
 </script>
 
 <style scoped>
+
+
 .dot-container {
-    position: relative;
-    z-index: 99;
+  position: relative;
+  z-index: 99;
   margin: 10px 0 8px 49px;
   height: 21px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   cursor: pointer;
-}
-.dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 100%;
-  background-color: black;
 }
 .options::before {
   position: absolute;
@@ -138,5 +131,10 @@ export default {
   font-size: 16px;
   text-decoration: none;
 }
-
+.options li a i{
+    margin-left: 3px;
+}
+.options li a i, .options li a span{
+   margin-right: 10px;
+}
 </style>
