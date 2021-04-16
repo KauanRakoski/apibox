@@ -20,7 +20,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 // Connecting to MongoDB
-const db = process.env.MONGO_URI
+const db = process.env.JSINT_DB
 
 mongoose.connect(db, {
     useNewUrlParser: true,

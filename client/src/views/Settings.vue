@@ -61,7 +61,8 @@ export default {
   data() {
     return {
       usR: null,
-      customerId: ''
+      customerId: '',
+      baseURL: `${process.env.VUE_APP_DOMAIN}`
     };
   },
   methods: {
@@ -99,7 +100,7 @@ export default {
           if(url == null) return
           if(!this.validateUrl(url)) {swal('Oops...', 'Invalid URL. Try again.', 'error'); return}
         axios.post(
-          "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/route",
+          `${this.baseURL}/user/route`,
           { uid: user.uid, route: url }
         )
       })
@@ -123,7 +124,7 @@ export default {
 
           axios
             .post(
-              `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/cancel`,
+              `${this.baseURL}/payment/cancel`,
               {cid: this.customerId, uid: userData.uid}
             )
             .then(this.logOut(false))
@@ -134,10 +135,10 @@ export default {
         const user = JSON.parse(localStorage.getItem('AuthUser'))
         var index = this.usR.indexOf(route)
         
-        axios.post('https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/del-route', { uid: user.uid, index})
+        axios.post(`${this.baseURL}/user/del-route`, { uid: user.uid, index})
         .then((res) => {
             if(!res.error){
-                axios.post("https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
+                axios.post(`${this.baseURL}/user/routes`,
                     { uid: user.uid }
                 )
                 .then((routes) => {this.usR = routes.data})
@@ -157,7 +158,7 @@ export default {
 
     axios
       .post(
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/routes",
+        `${this.baseURL}/user/routes`,
         { uid: this.getUser().uid }
       )
       .then((routes) => {

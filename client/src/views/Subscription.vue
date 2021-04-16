@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       backendUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/payment/",
+        `${process.env.VUE_APP_DOMAIN}/payment/`,
       spk:
         "pk_test_51HuKA0J1YBMak5vmu4kTKH0t32DNFWrkjaZIe2Tzcu6KF2lqzro7KJp6kA9G29wkCGWafrlILXAweAZHuFJdUxg600WqPMhPpa",
       stripe: undefined,

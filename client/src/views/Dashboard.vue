@@ -50,8 +50,7 @@ export default {
   },
   data() {
     return {
-      fetchUrl:
-        "https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/getdata/",
+      baseUrl:`${process.env.VUE_APP_DOMAIN}`,
       UserTasks: [],
       costumerId: "",
     };
@@ -72,7 +71,7 @@ export default {
     },
     async fetchUserData(user) {
       try {
-        let tasks = await fetch(`${this.fetchUrl + user}/`, { method: "POST" });
+        let tasks = await fetch(`${this.baseUrl +'/getdata/' + user}/`, { method: "POST" });
         let json = await tasks.json();
 
         if (json.error == true) utilities.showError();
@@ -84,7 +83,7 @@ export default {
     },
     async f(taskId) {
       fetch(
-        `https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/delete/${taskId}`,
+        `${this.baseUrl}/delete/${taskId}`,
         { method: "POST" }
       )
         .then(() => {
@@ -108,7 +107,8 @@ export default {
     })
   },
   async mounted() {
-    axios.post(`https://3030-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io/user/create`, {uid: 'Q3Nw4xCrvrd3qwOLEAtqRiFDV8T2'})
+      console.log(this.baseUrl)
+    axios.post(`${this.baseUrl}/user/create`, {uid: 'Q3Nw4xCrvrd3qwOLEAtqRiFDV8T2'})
     var fetchFunc = this.fetchUserData;
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
