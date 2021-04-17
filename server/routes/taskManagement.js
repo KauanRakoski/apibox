@@ -73,4 +73,27 @@ router.post('/delete/:taskId', async (req, res) => {
     }
 })
 
+router.post('/qr', async(req, res) => {
+    const {task_id, user} = req.body
+    console.log(task_id, user)
+    console.log('---------------------------------------------------------')
+
+    try{
+        let task = await Tasks.findOne({_id: task_id})
+        let {name, description, key, action} = task
+        console.log(name, description, key, action)
+        await Tasks.create({
+            author: user,
+            name: name,
+            description: description,
+            key: key,
+            action: action
+        })
+    }catch(e){
+        console.log(e)
+    }finally{
+        res.end()
+    }
+})
+
 module.exports = router
