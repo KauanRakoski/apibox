@@ -33,10 +33,11 @@ router.post('/:tid/:params', async (req, res) => {
         // If route is available, search for task using id
         // Extract the action from the task
         var action = task.action
+        console.log(action)
         
         // Create a vm instance to run the code in a safer way
         // Also, pass some variables and libraries
-        let response = await axios.post('https://untitled-944nr2clqwgw.runkit.sh/run',
+        let response = await axios.post(`https://jsint-run-ut7jnye3qbqq.runkit.sh/${action}/${params}`,
             {action: action, params: params ? params : {}}
         )
         console.log(response)
