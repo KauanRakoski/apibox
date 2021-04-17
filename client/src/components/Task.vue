@@ -14,7 +14,7 @@
         <p>{{ content.description }}</p>
       </div>
       <div class="buttons">
-        <TaskOptions v-bind:task="content" v-on:refresh-tasks="goUp" />
+        <TaskOptions v-bind:task="content" v-on:refresh-tasks="goUp" v-on:showqr="sendQr"/>
         <Button
           v-bind:type="content.key"
           v-bind:taskID="content._id"
@@ -43,6 +43,9 @@ export default {
   methods: {
     goUp(id) {
       this.$emit("refresh-tasks", id);
+    },
+    sendQr(id){
+        this.$emit('showqr', id)
     },
     copyClipboard(){
         var btn = document.querySelector(`.clipboard${this.content._id}`)

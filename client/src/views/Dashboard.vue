@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="popup">
-        <div class="popup-header">
-            <h2>Scan it:</h2>
-            <i class="fi-sr-cross-circle"></i>
-        </div>
-        <div class="qrcode">
-            <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + baseUrl + '/60781486b21a7310d38e6e52'">
+    <div v-if="qr_visible">
+        <div class="popup">
+            <div class="popup-header">
+                <h2>Scan it:</h2>
+                <i @click="close" class="fi-sr-cross-circle"></i>
+            </div>
+            <div class="qrcode">
+                <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + appDomain + '/qr/' + qr_id">
+            </div>
         </div>
     </div>
 
@@ -33,7 +35,7 @@
       <h2>Here are your tasks:</h2>
 
       <div class="task-container" v-for="task in UserTasks" :key="task">
-        <Task v-bind:content="task" v-on:refresh-tasks="f" />
+        <Task v-bind:content="task" v-on:refresh-tasks="f" v-on:showqr="showqr"/>
       </div>
     </div>
 
@@ -61,8 +63,11 @@ export default {
   data() {
     return {
       baseUrl:`${process.env.VUE_APP_DOMAIN}`,
+      appDomain: process.env.VUE_APP_BASE_URL,
       UserTasks: [],
       costumerId: "",
+      qr_visible: false,
+      qr_id: ''
     };
   },
   methods: {
@@ -101,6 +106,13 @@ export default {
         })
         .catch((e) => utilities.showError(e));
     },
+    showqr(id){
+        this.qr_visible = true
+        this.qr_id = id
+    },
+    close(){
+        this.qr_visible = false
+    }
   },
   beforeMount() {
     var jsonInfo;

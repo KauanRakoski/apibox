@@ -64,6 +64,9 @@ export default {
             swal("Task ran succesfuly", `${r ? `response: ${JSON.stringify(r)}` : ''}`, "success")
         })
         .catch(e => {swal("Something went wrong", "An error occured", "error"); console.log(e)})
+    },
+    qrCode(id){
+        this.$emit("showqr", id)
     }
   },
 };
