@@ -220,9 +220,7 @@ h2 {
 }
 
 .task-container {
- position: relative;
   margin-bottom: 1em;
-  z-index: 1;
 }
 .popup{
   position: fixed;
@@ -232,7 +230,7 @@ h2 {
   width: 400px;
   height: 400px;
   border-radius: 3px;
-  z-index: 99;
+  z-index: 5;
   background-color: #fff;
   box-shadow: 2px 2px 4px rgb(30, 30, 30, .3), -2px -2px 5px rgb(30, 30, 30, .3);
 }

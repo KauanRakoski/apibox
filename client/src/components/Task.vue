@@ -63,8 +63,6 @@ export default {
 </script>
 <style scoped>
 .task {
-  position: relative;
-  z-index: 1;
   background-color: #FFFFFF;
   height: 200px;
   padding: 0 2em;
@@ -116,7 +114,7 @@ export default {
 }
 .buttons {
   position: relative;
-  z-index: 99;
+  z-index: 2;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

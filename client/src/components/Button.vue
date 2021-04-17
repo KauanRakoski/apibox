@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="button">
     <div v-if="type == 'slider'">
       <label class="switch">
         <input
@@ -47,6 +47,11 @@ export default {
 </script>
 
 <style scoped>
+.button{
+    position: relative;
+    z-index: -3;
+    padding: 0;
+}
 .switch {
   position: relative;
   display: inline-block;

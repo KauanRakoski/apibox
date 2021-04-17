@@ -28,8 +28,14 @@ export default {
   methods: {
     toogleOptions(id) {
       let optionsMenu = document.getElementById(id);
-      if (optionsMenu.style.opacity > 0) optionsMenu.style.opacity = 0;
-      else optionsMenu.style.opacity = 1;
+      if (optionsMenu.style.opacity != 0) {
+          optionsMenu.style.opacity = 0
+          optionsMenu.style.visibiblity = 'hidden'
+        }
+      else{
+          optionsMenu.style.opacity = 1
+          optionsMenu.style.visibility = 'visible'
+      } 
     },
     getUser() {
       let userInfo = localStorage.getItem("AuthUser");
@@ -55,7 +61,8 @@ export default {
       });
     },
     runOnServer(id){
-        fetch(`${this.serverUrl}/api/${id}`, {method: "POST"})
+        console.log(id)
+        fetch(`${this.serverUrl}/api/${id}/{i: true}`, {method: "POST"})
         .then((res) => {
             if(res.error){
             swal("Something went wrong", "An error occured", "error")
@@ -76,9 +83,7 @@ export default {
 
 
 .dot-container {
-  position: relative;
-  z-index: 99;
-  margin: 10px 0 8px 49px;
+   margin: 10px 0 8px 49px;
   height: 21px;
   display: flex;
   flex-direction: column;
@@ -100,11 +105,12 @@ export default {
   position: relative;
   min-width: 140px;
   z-index: 99;
-  margin: 45px -40px -20px 40px;
-  opacity: 0;
+  margin: 20px -40px -20px 40px;
   list-style: none;
   padding: 0.01em;
   border-radius: 3px;
+  opacity: 0;
+  visibility: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
