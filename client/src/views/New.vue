@@ -38,7 +38,7 @@
 
         <div class="i-group">
           <label for="code">Action:</label>
-          <runkit :source="code" ref="runkit"  node-version="14.16.0" class="code"/>
+          <codemirror v-model="code" :options="cmOptions" />
         </div>
 
         <button v-if="$route.params.task" type="submit" class="button btn-main">
@@ -58,19 +58,29 @@ import axios from "axios";
 /* import swal from 'sweetalert' */
 import utilities from "../helpers/utilities";
 import firebase from 'firebase';
-import runkit from 'vue-runkit';
- 
+import { codemirror } from 'vue-codemirror'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/javascript/javascript.js'
+import 'codemirror/theme/dracula.css'
+
 
 export default {
   name: "New",
   components: {
     Header,
-    runkit
+    codemirror
   },
   data() {
     return {
       postRoute: `${process.env.VUE_APP_DOMAIN}`,
       code: 'console.log("Hello World")',
+      cmOptions: {
+        tabSize: 4,
+        mode: 'text/javascript',
+        theme: 'dracula',
+        lineNumbers: true,
+        line: true,
+      }
     };
   },
   methods: {
@@ -81,11 +91,6 @@ export default {
       return jsonInfo;
     },
     async submit() {
-        var notebook = this.$refs.runkit.notebook
-        const src = notebook.getSource()
-        console.log(src)
-        var r = src._rejectionHandler0
-        console.log(r)
         let name = document.getElementById("name").value;
         let description = document.getElementById("description").value;
         let key = document.getElementById("key").value;
@@ -96,13 +101,13 @@ export default {
                 name: name,
                 key: key,
                 description: description,
-                action: r
+                action: this.code
             });
             console.log("hello")
             } else {
             await axios.post(
                 `${this.postRoute}/edit/${this.$route.params.task._id}`,
-                { name: name, key: key, description: description, action: r }
+                { name: name, key: key, description: description, action: this.code }
             );
             console.log("hello")
             }
@@ -136,7 +141,6 @@ export default {
       document.getElementById("key").value = this.$route.params.task.key;
 
       this.code = this.$route.params.task.action
-      this.$refs.runkit.notebook.setSource(this.$route.params.task.action)
     }
 
     
@@ -145,6 +149,13 @@ export default {
 </script>
 
 <style scoped>
+.vue-codemirror {
+    width: 400px;
+}
+.cm-s-dracula.CodeMirror, .cm-s-dracula .CodeMirror-gutters{
+    border-radius: 5px;
+    max-height:100px;
+}
 body {
   overflow-x: hidden;
 }

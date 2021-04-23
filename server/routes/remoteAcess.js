@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Tasks = require('../models/task')
 const User = require('../models/user')
+const qs = require('qs')
 const {NodeVM} = require('vm2')
 
 // User libraries
@@ -33,14 +34,14 @@ router.post('/:tid/:params', async (req, res) => {
         // If route is available, search for task using id
         // Extract the action from the task
         var action = task.action
-        console.log(action)
+        
         
         // Create a vm instance to run the code in a safer way
         // Also, pass some variables and libraries
-        let response = await axios.post(`https://jsint-run-ut7jnye3qbqq.runkit.sh/${action}/${params}`,
-            {action: action, params: params ? params : {}}
+        let response = await axios.post(`https://jsint-run-ut7jnye3qbqq.runkit.sh/${action}/${params ? params : {}}`,
+            qs.stringify("{action: 'action', params: 'params'}")
         )
-        console.log(response)
+        res.send({error: false, response: response.data})
         /* const inBrowser = false
 
         const vm = new NodeVM({
