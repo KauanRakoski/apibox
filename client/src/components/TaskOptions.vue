@@ -14,7 +14,9 @@
 </template>
 
 <script>
-import swal from "sweetalert";
+import swal from "sweetalert"
+import axios from 'axios'
+
 export default {
   name: "TaskOptions",
   data() {
@@ -60,9 +62,10 @@ export default {
         } else return;
       });
     },
-    runOnServer(id){
-        console.log(id)
-        fetch(`${this.serverUrl}/api/${id}/{i: true}`, {method: "POST"})
+    async runOnServer(id){
+        let res = await axios.post(`${this.serverUrl}/api/${id}/{i: true}`)
+        console.log(res.data)
+        /* fetch(`${this.serverUrl}/api/${id}/{i: true}`, {method: "POST"})
         .then((res) => {
             if(res.error){
             swal("Something went wrong", "An error occured", "error")
@@ -70,7 +73,7 @@ export default {
         .then(r => {
             swal("Task ran succesfuly", `${r ? `response: ${JSON.stringify(r)}` : ''}`, "success")
         })
-        .catch(e => {swal("Something went wrong", "An error occured", "error"); console.log(e)})
+        .catch(e => {swal("Something went wrong", "An error occured", "error"); console.log(e)}) */
     },
     qrCode(id){
         this.$emit("showqr", id)

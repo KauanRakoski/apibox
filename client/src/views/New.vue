@@ -38,7 +38,12 @@
 
         <div class="i-group">
           <label for="code">Action:</label>
-          <codemirror v-model="code" :options="cmOptions" />
+          <div class="before"><img src="https://i.ibb.co/wKm3dwr/settings.png">JavaScript</div>
+          <codemirror class="editor" v-model="code" :options="cmOptions" />
+          <div class="after">
+              <p>Sandbox</p>
+              <a><img src="https://i.ibb.co/W29t3kB/play-button-arrowhead.png"> Run</a>
+          </div>
         </div>
 
         <button v-if="$route.params.task" type="submit" class="button btn-main">
@@ -62,7 +67,6 @@ import { codemirror } from 'vue-codemirror'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/javascript/javascript.js'
 import 'codemirror/theme/dracula.css'
-
 
 export default {
   name: "New",
@@ -149,12 +153,57 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
+
 .vue-codemirror {
     width: 400px;
 }
-.cm-s-dracula.CodeMirror, .cm-s-dracula .CodeMirror-gutters{
-    border-radius: 5px;
-    max-height:100px;
+.before{
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    width: 100%;
+    color: white;
+    background-color: #282a36;
+    padding: 0.4em 1em;
+}
+.before img{
+    width: 16px;
+    margin-right: 10px;
+}
+.after{
+    width: 100%;
+    background-color: #383a49;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.after img{
+    transform: scale(0.9)
+}
+.after p{
+    color: white;
+    margin: 0px 0 0 20px;
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+}
+.after a{
+    border-bottom-right-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+    height: 100%;
+    width: 80px;
+    padding: 5px;
+    background: #33b277;
+    border: none;
 }
 body {
   overflow-x: hidden;

@@ -129,8 +129,8 @@ export default {
     })
   },
   async mounted() {
-      console.log(this.baseUrl)
-    axios.post(`${this.baseUrl}/user/create`, {uid: 'Q3Nw4xCrvrd3qwOLEAtqRiFDV8T2'})
+    
+    axios.post(`${this.baseUrl}/user/create`, {uid: `${this.getUser().uid}`})
     var fetchFunc = this.fetchUserData;
     firebase.auth().onAuthStateChanged(async function (user) {
       if (user) {
