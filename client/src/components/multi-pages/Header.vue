@@ -13,12 +13,13 @@
         width="50px"
         height="50px"
       />
+      &nbsp; &nbsp; &nbsp;
       <h2
         :class="
           mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'
         "
       >
-        jsint
+        apibox
       </h2>
     </router-link>
 
@@ -26,6 +27,7 @@
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
         <li class="li" @click="openDocs">📚 Docs</li>
+        <li class="li" @click="installModule()">🧩 Add Module</li>
         <router-link to="/settings" class="li">⚙️ Settings</router-link>
       </ul>
     </div>
@@ -33,13 +35,20 @@
 </template>
 
 <script>
+import axios from 'axios';
+import swal from 'sweetalert'
 
 export default {
   name: "Header",
   props: {
     img: String,
     mode: String,
-    cId: String,
+    cId: String
+  },
+  data(){
+      return{
+          server_url: `${process.env.VUE_APP_DOMAIN}`
+      }
   },
   methods: {
     toggleMenu() {
@@ -53,8 +62,22 @@ export default {
         menu.style.visibility = "visible";
       }
     },
+    async installModule(){
+        console.log(this.server_url)
+        swal({
+            text: "Enter a route adress",
+            content: "input",
+            button: {
+            text: "Done",
+            closeModal: true,
+            },
+      }).then(module => {
+          axios.post(`${this.server_url}/api/install`, {module})
+      })
+        
+    },
     openDocs() {
-      window.open("https://www.github.com/hipesoft/jsint", "_blank");
+      window.open("https://www.github.com/kauanrakoski/apibox", "_blank");
     },
   },
 };

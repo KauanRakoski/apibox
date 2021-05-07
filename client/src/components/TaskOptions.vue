@@ -63,17 +63,17 @@ export default {
       });
     },
     async runOnServer(id){
-        let res = await axios.post(`${this.serverUrl}/api/${id}/{i: true}`)
-        console.log(res.data)
-        /* fetch(`${this.serverUrl}/api/${id}/{i: true}`, {method: "POST"})
-        .then((res) => {
-            if(res.error){
-            swal("Something went wrong", "An error occured", "error")
-        }else return res.json()})
-        .then(r => {
-            swal("Task ran succesfuly", `${r ? `response: ${JSON.stringify(r)}` : ''}`, "success")
-        })
-        .catch(e => {swal("Something went wrong", "An error occured", "error"); console.log(e)}) */
+        try{
+            let res = await axios.post(`${this.serverUrl}/api/${id}/{i: true}`)
+
+            if(res.data.error) swal("Something went wrong...", "An error occurred", "error")
+            else swal("Task ran", `Response: ${JSON.stringify(res.data)}`, "info")
+        }
+        catch(e){
+            swal("Something went wrong...", "Unable to contact api", "error")
+            return e
+        }        
+        
     },
     qrCode(id){
         this.$emit("showqr", id)

@@ -24,7 +24,7 @@
             id="description"
             placeholder="i.e Starts cooking a sausage"
             required
-            maxlength="15"
+            maxlength="20"
           />
         </div>
 
