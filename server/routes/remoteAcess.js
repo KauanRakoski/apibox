@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Tasks = require('../models/task')
+let exec = require('child_process').exec
 const User = require('../models/user')
 const qs = require('qs')
 const {NodeVM} = require('vm2')
@@ -34,14 +35,32 @@ router.post('/:tid/:params', async (req, res) => {
         // If route is available, search for task using id
         // Extract the action from the task
         var action = task.action
+        const inBrowser = false
         console.log(action)
         
-        let response = await axios.post(`https://jsint-run-ut7jnye3qbqq.runkit.sh/${action}/${params}`, {})
-        res.send({error: false, response: response.data})
+        const vm = new NodeVM({
+            console: 'off',
+            wrapper: 'none',
+            context: 'sandbox',
+            sandbox: {inBrowser, params},
+            require: {
+                external: true,
+                internal: false
+            }
+        })
+
+        let r = vm.run(action, 'vm.js')
+        res.send({error: false, response: r})
         
     }catch(e){
         console.log(e)
     }
+})
+
+router.post('/install', (req, res) => {
+    console.log('jfdsfb')
+    const {module} = req.body
+    exec(`npm i ${module}`)
 })
 
 
