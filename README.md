@@ -45,6 +45,10 @@ In addition, you can use different types of **triggers**, that is, different way
 - Utilities (jsint shortcut library)
 - SweetAlert
 
+ #### ✔️ Integrating with GitHub Actions
+ 
+ There is a github action available to sync tasks to apibox on your GitHub Workflows. Check [kauanrakoski/sync-apibox](https://github.com/KauanRakoski/sync-apibox)
+
 ### 🤝 Contributing
 
 Consider forking and making a pull request, or opening an issue. 😉
