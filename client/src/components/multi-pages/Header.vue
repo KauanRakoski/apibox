@@ -1,8 +1,7 @@
 <template>
   <header :class="mode == 'blue' ? 'blue' : 'white shadow'">
     <router-link to="/dashboard" class="logo">
-      <img
-        v-if="mode == 'blue'"
+      <img v-if="mode == 'blue'"
         src="../../assets/jsint-cube-white.svg"
         width="50px"
         height="50px"
@@ -13,10 +12,10 @@
         width="50px"
         height="50px"
       />
-      &nbsp; &nbsp; &nbsp;
+
       <h2
         :class="
-          mode == 'blue' ? 'logo-text text-white' : 'logo-text text-black'
+          mode == 'blue' ? 'logo logo-text text-white' : 'logo logo-text text-black'
         "
       >
         apibox
@@ -116,6 +115,7 @@ a{
     text-decoration: none;
     color: black;
 }
+
 .profile-photo {
   margin-top: 83px;
   width: 50px;
@@ -183,6 +183,9 @@ a{
 .li a {
   text-decoration: none;
   text-emphasis-color: white;
+}
+.logo{
+    margin-left: 20px;
 }
 
 @media only screen and (max-width: 700px) {

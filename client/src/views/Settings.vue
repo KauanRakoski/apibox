@@ -91,7 +91,13 @@ export default {
       const user = JSON.parse(localStorage.getItem('AuthUser'))
       swal({
         text: "Enter a route adress",
-        content: "input",
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "https://example.com",
+                type: "url",
+            },
+        },
         button: {
           text: "Done",
           closeModal: true,

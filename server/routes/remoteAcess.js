@@ -63,5 +63,16 @@ router.post('/install', (req, res) => {
     exec(`npm i ${module}`)
 })
 
+router.post('/actions', async(req,res) => {
+    const {id, data} = req.body
+    try{
+        var task = await Tasks.findOneAndUpdate({_id: id}, {action: data})
+        res.end()
+    }
+    catch(e){
+        res.send({error: true, details: e})
+    }
+})
+
 
 module.exports = router
