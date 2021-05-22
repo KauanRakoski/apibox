@@ -1,19 +1,17 @@
 const express = require('express')
-const cors = require('cors')
 const app = express()
+const cors = require('cors')
 const dotenv = require('dotenv').config()
 const mongoose = require('mongoose')
 const helmet = require('helmet')
 
-/* // Enabling cors
-var corsOptions = {
-  origin: ['https://8080-a70e1d88-51d5-4619-b26f-fa22337e2bdb.ws-us03.gitpod.io'],
-  optionsSuccessStatus: 200
-} */
 
-app.use(cors())
-app.use('/api', cors())
+
+/* app.use('/api', cors()) */
 app.use(helmet())
+app.use(cors())
+
+
 
 // Body-parser
 app.use(express.urlencoded({extended: false}));

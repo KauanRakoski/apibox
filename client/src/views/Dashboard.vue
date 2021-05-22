@@ -48,7 +48,6 @@
 </template>
 
 <script>
-import firebase from "firebase";
 import Header from "../components/multi-pages/Header";
 import Task from "../components/Task";
 import axios from 'axios'
@@ -72,17 +71,8 @@ export default {
   },
   methods: {
     getUser() {
-      let userInfo = localStorage.getItem("AuthUser")
+      let userInfo = localStorage.getItem("apibox-user")
       return JSON.parse(userInfo)
-    },
-    checkSub(user){
-    utilities.checkUserSubscription(user.email)
-      .then(async(sub) => {
-          let subscription = await sub
-        if (subscription == undefined) this.$router.push("/subscribe")
-        else this.costumerId = subscription.id;
-      })
-      .catch((e) => utilities.showError(e));
     },
     async fetchUserData(user) {
       try {
@@ -114,33 +104,9 @@ export default {
         this.qr_visible = false
     }
   },
-  beforeMount() {
-    var jsonInfo;
-
-    firebase.auth().onAuthStateChanged(async(user) => {
-      if (user) {
-        jsonInfo = firebase.auth().currentUser;
-        this.checkSub(jsonInfo)
-      } else {
-        let userInfo = localStorage.getItem("AuthUser");
-        jsonInfo = JSON.parse(userInfo)
-        this.checkSub(jsonInfo)
-      }
-    })
-  },
   async mounted() {
-    
     axios.post(`${this.baseUrl}/user/create`, {uid: `${this.getUser().uid}`})
-    var fetchFunc = this.fetchUserData;
-    firebase.auth().onAuthStateChanged(async function (user) {
-      if (user) {
-        localStorage.setItem("AuthUser", JSON.stringify(user));
-        await fetchFunc(user.uid);
-      } else {
-        let userInfo = localStorage.getItem("AuthUser");
-        await fetchFunc(JSON.parse(userInfo).uid);
-      }
-    })
+    await this.fetchUserData(this.getUser().uid)
   },
 }
 </script>
