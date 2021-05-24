@@ -63,8 +63,37 @@ router.post('/install', (req, res) => {
     exec(`npm i ${module}`)
 })
 
+/**
+ *  
+*/
+router.post('/sandbox', (req,res) => {
+    const {code} = req.body
+    console.log(code)
+    const inBrowser = false
+    
+    try{
+        const vm = new NodeVM({
+            console: 'off',
+            wrapper: 'none',
+            context: 'sandbox',
+            sandbox: {inBrowser},
+            require: {
+                external: true,
+                internal: false
+            }
+        })
+
+        let r = vm.run(code, 'vm.js')
+        res.send({error: false, response: r, details: "Successful request"})
+    }catch(e){
+        console.log(e)
+         res.send({error: true, response: null, details: e})
+    }
+})
+
 router.post('/actions', async(req,res) => {
     const {id, data} = req.body
+    console.log(id, data)
     try{
         var task = await Tasks.findOneAndUpdate({_id: id}, {action: data})
         res.end()
