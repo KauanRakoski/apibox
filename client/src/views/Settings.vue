@@ -12,6 +12,10 @@
 
         <div>
           <h3>{{ getUser().displayName }}</h3>
+          <span>
+              <i class="fi-rr-envelope"></i>
+              <p>{{getUser().email}}</p>
+          </span>
           
           <div>
               <button class="button btn-main ml-3" id="li1" @click="logOut(true)">Sign Out</button>
@@ -22,7 +26,7 @@
 
       <div class="routes rounded shadow">
         <h3 class="mb-1">Allowed routes</h3>
-        <span class="mb-3 ml-2 text-muted">These are the routes that are allowed to send requests and run your tasks. 
+        <span class="mb-1 ml-2 text-muted">These are the routes that are allowed to send requests and run your tasks. 
             <span class="add-route" @click="registerApiRoute()">Add a route by clicking here</span>
         </span><br>
 
@@ -50,7 +54,7 @@
 import Header from "../components/multi-pages/Header";
 import axios from "axios";
 import firebase from 'firebase'
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 import utilities from '../helpers/utilities';
 
 export default {
@@ -87,29 +91,19 @@ export default {
       ); // fragment locator
       return !!pattern.test(str);
     },
-    registerApiRoute() {
-      const user = JSON.parse(localStorage.getItem('AuthUser'))
-      swal({
-        text: "Enter a route adress",
-        content: {
-            element: "input",
-            attributes: {
-                placeholder: "https://example.com",
-                type: "url",
-            },
-        },
-        button: {
-          text: "Done",
-          closeModal: true,
-        },
-      }).then((url) => {
-          if(url == null) return
-          if(!this.validateUrl(url)) {swal('Oops...', 'Invalid URL. Try again.', 'error'); return}
-        axios.post(
-          `${this.baseURL}/user/route`,
-          { uid: user.uid, route: url }
-        )
-      })
+    async registerApiRoute() {
+    const user = JSON.parse(localStorage.getItem('apibox-user'))
+
+    const {value: url} = await Swal.fire({
+        input: 'url',
+        inputLabel: 'URL address',
+        inputPlaceholder: 'Enter the URL'
+    })
+
+    if(url){
+        console.log(url)
+        axios.post(`${this.baseURL}/user/route`, { uid: user.uid, route: url })
+    }
     },
     logOut(param) {
       if (param) this.spinner("li1");
@@ -117,25 +111,21 @@ export default {
       localStorage.removeItem("AuthUser");
     },
     deleteCustomer(){
-        swal({
-        title: "Are you sure?",
-        text: "This action can not be undone. All your data will be deleted.",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.spinner("li2");
-          let userData = JSON.parse(localStorage.getItem("AuthUser"));
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This action can not be undone. All your data will be deleted",
+            icon: 'warning',
+        })
+        .then(result => {
+            if(result.isConfirmed){
+                this.spinner("li2")
 
-          axios
-            .post(
-              `${this.baseURL}/payment/cancel`,
-              {cid: this.customerId, uid: userData.uid}
-            )
-            .then(this.logOut(false))
-        } else return
-      })
+                let userData = JSON.parse(localStorage.getItem("AuthUser"))
+                axios.post( `${this.baseURL}/payment/cancel`,
+                    {cid: this.customerId, uid: userData.uid}
+                ).then(this.logOut(false))
+            }
+        })
     },
     deleteRoute(route){
         const user = JSON.parse(localStorage.getItem('AuthUser'))
@@ -191,10 +181,16 @@ main {
 }
 .basic-info h3 {
   font-family: "Inter", sans-serif;
-  margin: 10px 0 20px 15px;
+  margin: 10px 0 5px 15px;
 }
-.basic-info p span {
-  font-weight: 500;
+.basic-info span {
+  margin: 10px 0 15px 15px;
+  display: flex;
+  align-items: center;
+}
+.basic-info p{
+    margin: -3px 0 0 5px;
+    font-size: 18px;
 }
 .routes {
   margin: 20px 0;
@@ -209,7 +205,6 @@ main {
   margin-left: 10px;
 }
 .routes p {
-  margin-top: -1000px;
   padding: 0.1em;
   margin-left: 16px;
   font-family: "Inter", sans-serif;

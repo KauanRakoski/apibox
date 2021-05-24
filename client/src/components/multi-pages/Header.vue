@@ -117,7 +117,7 @@ a{
 }
 
 .profile-photo {
-  margin-top: 83px;
+  margin-top: 110px;
   width: 50px;
   height: 50px;
   margin-right: 20px;
