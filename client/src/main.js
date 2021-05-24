@@ -19,7 +19,7 @@ new Vue({
 
         if(isSubscribed == undefined){
              this.$router.push('/subscribe').catch(() => {})
-            }
+        }
         
         else this.$router.push('/dashboard').catch(() => {})
       }

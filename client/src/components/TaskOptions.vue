@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import swal from "sweetalert"
 import axios from 'axios'
 
@@ -47,26 +48,32 @@ export default {
         this.$router.push({name: 'New', params: {task: this.task}})
     },
     deleteTaskRequest() {
-      swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover the task data",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      }).then((willDelete) => {
-        if (willDelete) {
-          this.$emit("refresh-tasks", this.task._id);
-          swal("Task deleted", {
-            icon: "success",
-          });
-        } else return;
-      });
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                this.$emit("refresh-tasks", this.task._id);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Task deleted successfully',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+            })
     },
     async runOnServer(id){
         try{
             let res = await axios.post(`${this.serverUrl}/api/${id}/{i: true}`)
 
-            if(res.data.error) swal("Something went wrong...", "An error occurred", "error")
+            if(res.data.error) Swal.fire("Something went wrong...", "An error occurred", "error")
             else swal("Task ran", `Response: ${JSON.stringify(res.data)}`, "info")
         }
         catch(e){
