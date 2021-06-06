@@ -34,8 +34,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-import swal from 'sweetalert'
 
 export default {
   name: "Header",
@@ -62,18 +60,7 @@ export default {
       }
     },
     async installModule(){
-        console.log(this.server_url)
-        swal({
-            text: "Enter a route adress",
-            content: "input",
-            button: {
-            text: "Done",
-            closeModal: true,
-            },
-      }).then(module => {
-          axios.post(`${this.server_url}/api/install`, {module})
-      })
-        
+                
     },
     openDocs() {
       window.open("https://www.github.com/kauanrakoski/apibox", "_blank");

@@ -11,15 +11,15 @@
         />
 
         <div>
-          <h3>{{ getUser().displayName }}</h3>
+          <h3>{{ user.displayName }}</h3>
           <span>
               <i class="fi-rr-envelope"></i>
-              <p>{{getUser().email}}</p>
+              <p>{{user.email}}</p>
           </span>
           
           <div>
-              <button class="button btn-main ml-3" id="li1" @click="logOut(true)">Sign Out</button>
-              <button @click="deleteCustomer()" id="li2" class="button btn-second ml-2">Unsubscribe</button>
+              <button class="button btn-main mx-3" id="li1" @click="logOut(true)">Sign Out</button>
+              <button @click="deleteCustomer()" id="li2" class="button btn-second">Unsubscribe</button>
           </div>
         </div>
       </div>
@@ -69,9 +69,14 @@ export default {
       baseURL: `${process.env.VUE_APP_DOMAIN}`
     };
   },
+  computed: {
+      user(){
+          return this.getUser()
+      }
+  },
   methods: {
     getUser() {
-      return JSON.parse(localStorage.getItem("AuthUser"));
+      return JSON.parse(localStorage.getItem("apibox-user"));
     },
     spinner(id) {
       let item = document.getElementById(id);
