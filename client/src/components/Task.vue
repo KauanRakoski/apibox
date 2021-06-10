@@ -7,7 +7,7 @@
           @click="copyClipboard"
           :class="'clipboard' + content._id + ' ' + 'button-copy'"
           :data-clipboard-text="content._id">
-            <img src="https://camo.githubusercontent.com/af31b83340c4b8b34f81244e492e22af2039ec1e761d95040ce21250c0680e35/68747470733a2f2f636c6970626f6172646a732e636f6d2f6173736574732f696d616765732f636c697070792e737667" width="20px" height="20px">
+            <ion-icon name="clipboard-outline"></ion-icon>
             <span class="clipboard-text">Copy id</span>
         </button>
         <h2 class="task-title">{{ content.name }}</h2>

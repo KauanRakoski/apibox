@@ -5,16 +5,17 @@
     </div>
 
     <ul class="options" v-bind:id="task._id">
-      <li @click="editTask"><a><span>✏️</span> Edit</a></li>
-      <li @click="deleteTaskRequest"><a><span>🗑️</span> Delete</a></li>
-      <li @click="runOnServer(task._id)"><a><span>💻</span> Server</a></li>
-      <li @click="qrCode(task._id)"><a><i class="fi-sr-redo"></i> Share</a></li>
+      <li @click="editTask"><a><ion-icon name="pencil"></ion-icon> Edit</a></li>
+      <li @click="deleteTaskRequest"><a><ion-icon name="trash"></ion-icon> Delete</a></li>
+      <li @click="runOnServer(task._id)"><a><ion-icon name="layers"></ion-icon> Server</a></li>
+      <li @click="qrCode(task._id)"><a><ion-icon name="share"></ion-icon> Share</a></li>
     </ul>
   </div>
 </template>
 
 <script>
 import Swal from 'sweetalert2'
+
 import swal from "sweetalert"
 import axios from 'axios'
 
@@ -72,7 +73,7 @@ export default {
     async runOnServer(id){
         try{
             let res = await axios.post(`${this.serverUrl}/api/${id}/{i: true}`)
-
+            
             if(res.data.error) Swal.fire("Something went wrong...", "An error occurred", "error")
             else swal("Task ran", `Response: ${JSON.stringify(res.data)}`, "info")
         }
@@ -133,6 +134,7 @@ export default {
   z-index: 99;
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   padding: 0.3em 1.2em;
   width: 100%;
   border-radius: 3px;
@@ -141,13 +143,18 @@ export default {
   margin: 5px 0;
   cursor: pointer;
 }
+ion-icon{
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
+}
 .options li:hover {
   background-color: rgb(28, 117, 217);
   color: white;
 }
 .options li a {
   font-family: "Inter", sans-serif;
-  font-size: 16px;
+  font-size: 17px;
   text-decoration: none;
 }
 .options li a i{

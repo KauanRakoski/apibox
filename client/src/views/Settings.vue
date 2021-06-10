@@ -13,7 +13,7 @@
         <div>
           <h3>{{ user.displayName }}</h3>
           <span>
-              <i class="fi-rr-envelope"></i>
+              <ion-icon name="mail"></ion-icon>
               <p>{{user.email}}</p>
           </span>
           

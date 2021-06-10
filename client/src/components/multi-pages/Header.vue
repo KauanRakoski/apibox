@@ -25,9 +25,9 @@
     <div id="controls">
       <img class="profile-photo" :src="img" @click="toggleMenu" />
       <ul id="menu">
-        <li class="li" @click="openDocs">📚 Docs</li>
-        <li class="li" @click="installModule()">🧩 Add Module</li>
-        <router-link to="/settings" class="li">⚙️ Settings</router-link>
+        <li class="li" @click="openDocs"><ion-icon name="book"></ion-icon> Docs</li>
+        <li class="li" @click="installModule()"><ion-icon name="extension-puzzle"></ion-icon> Add Module</li>
+        <router-link to="/settings" class="li"><ion-icon name="cog"></ion-icon> Settings</router-link>
       </ul>
     </div>
   </header>
@@ -158,10 +158,17 @@ a{
 .li {
   font-family: "Inter", sans-serif;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
   width: 100%;
   font-size: 15px;
   cursor: pointer;
   padding: 0.4em 0.4em;
+}
+.li ion-icon{
+    margin-right: 10px;
+    height: 18px;
+    width: 18px;
 }
 .li:hover {
   background-color: rgb(28, 117, 217);

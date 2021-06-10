@@ -21,6 +21,7 @@ router.post('/:tid/:params', async (req, res) => {
     // Check if origin is in allowed routes
     // If it is not, end request
     const origin = req.get('origin')
+
     try {
         const user = await User.findOne({uid})
         
@@ -49,11 +50,12 @@ router.post('/:tid/:params', async (req, res) => {
             }
         })
 
-        let r = vm.run(action, 'vm.js')
+        let r = await vm.run(action, 'vm.js')
+        console.log("R:")
         res.send({error: false, response: r})
         
     }catch(e){
-        console.log(e)
+        res.send({error: true, response: null})
     }
 })
 
