@@ -26,7 +26,7 @@ Jsint is a little project built on top of vue and node.js. In it you can create 
 In order to be able to use jsint, create and account and a task. Then, if you want to make a request, use a post request to the URL below:
 
 ```javascript
- POST "https://js-int.herokuapp.com/api/:task-id"
+ POST "https://apbx.herokuapp.com/api/:task-id"
 ```
 
 In addition, you can use different types of **triggers**, that is, different ways to activate the action. Right now, there are 2 different triggers: <kbd>click</kbd> and <kbd>switch</kbd>.
