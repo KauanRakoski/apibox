@@ -21,9 +21,9 @@
 
 ### ⚙️ What is jsint and how does it work?
 
-Jsint is a little project built on top of vue and node.js. In it you can create _tasks_, that are tiny pieces of javascript code, and run them in app or on requests from allowed URLs.
+Apibox is a little project built on top of vue and node.js. In it you can create _tasks_, that are tiny pieces of javascript code, and run them in app or on requests from allowed URLs.
 
-In order to be able to use jsint, create and account and a task. Then, if you want to make a request, use a post request to the URL below:
+In order to be able to use apibox, create an account and a task. Then, if you want to make a request, use a post request to the URL below:
 
 ```javascript
  POST "https://apbx.herokuapp.com/api/:task-id"
@@ -42,7 +42,7 @@ In addition, you can use different types of **triggers**, that is, different way
 #### Libraries
 
 - Node libraries (when not running on browser)
-- Utilities (jsint shortcut library)
+- Utilities (apibox shortcut library) comming soon
 - SweetAlert
 
  #### ✔️ Integrating with GitHub Actions
@@ -53,4 +53,4 @@ In addition, you can use different types of **triggers**, that is, different way
 
 Consider forking and making a pull request, or opening an issue. 😉
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/kauanrakoski/jsint)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/https://github.com/kauanrakoski/apibox)
