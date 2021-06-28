@@ -15,7 +15,7 @@
     "firebase": "^8.2.3",
     "firebaseui": "^4.7.1",
     "ionicons": "^5.5.1",
-    "prismjs": "^1.23.0",
+    "prismjs": "^1.24.0",
     "register-service-worker": "^1.7.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.0.11",
